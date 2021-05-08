@@ -2,10 +2,10 @@
   "name": "node-app",
   "version": "1.0.0",
   "description": "My trash testing node app",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "nodemon index.js",
-    "start": "node index.js"
+    "test": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "TKDKid1000",
   "license": "MIT",

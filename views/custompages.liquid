@@ -1,8 +1,0 @@
-{% layout 'root.liquid' %}
-{% block content %}
-{% for page in custompages %}
-    <p>
-        <a class="btn btn-primary" href="/pages/{{ page }}">{{ page | capitalize }}</a>
-    </p>
-{% endfor %}
-{% endblock %}
