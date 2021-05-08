@@ -1,0 +1,20 @@
+{% layout 'root.liquid' %}
+{% block content %}
+<form action="/login" method="POST">
+    
+    {% if user.email %}
+    <p>You are already logged in! Maybe you were looking to <a href="/logout">logout?</a></p>
+    {% endif %}
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="you@gmail.com" {% if user.email %}disabled{% endif %}>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="1234 is a bad password" {% if user.email %}disabled{% endif %}>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-success w-100" type="submit" {% if user.email %}disabled{% endif %}>Login</button>
+    </div>
+</form>
+{% endblock %}

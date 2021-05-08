@@ -1,0 +1,11 @@
+.footer {
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    position: sticky;
+    background-color: gray;
+}
+.material-icons {
+    display: inline-flex;
+    vertical-align: top;
+}

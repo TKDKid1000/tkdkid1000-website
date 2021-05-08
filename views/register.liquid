@@ -1,0 +1,35 @@
+{% layout 'root.liquid' %}
+{% block content %}
+<form action="/register" method="POST">
+    
+    {% if user.email %}
+    <p>You are already logged in! Maybe you were looking to <a href="/logout">logout?</a></p>
+    {% endif %}
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="you@gmail.com" {% if user.email %}disabled{% endif %}>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="1234 is a bad password" {% if user.email %}disabled{% endif %}>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="tos">
+        <label class="form-check-label" for="tos">
+            By checking this you agree to our <a href="/pages/tos">tos</a>.
+        </label>
+    </div>
+    <div class="mb-3">
+        <button id="register" disabled class="btn btn-success w-100" type="submit">Register</button>
+        <p id="tos-message">You must agree to the <a href="/pages/tos">tos</a> to register!</p>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#tos").on("click", function() {
+               $("#register").prop("disabled", !$(this).is(":checked"))
+               $("#tos-message").css("display",($(this).is(":checked")) ? "none" : "block")
+            })
+        })
+    </script>
+</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% layout 'root.liquid' %}
+{% block content %}
+{% if user.email %}
+<p>Successfully logged you out. Going <a href="/">home</a> in <span id="timer"></span>.</p>
+<script>
+    $(document).ready(function() {
+        var timer = 5;
+        $("#timer").text(timer)
+        setInterval(function() {
+            timer--;
+            $("#timer").text(timer)
+            if (timer == 0) {
+                window.location.replace("/")
+            }
+        }, 1000)
+    })
+</script>
+{% else %}
+<p>You weren't logged in! maybe you are looking to <a href="/login">login?</a></p>
+{% endif %}
+{% endblock %}
