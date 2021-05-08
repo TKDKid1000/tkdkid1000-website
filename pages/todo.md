@@ -1,1 +1,0 @@
-add simple credits page `/credits`
