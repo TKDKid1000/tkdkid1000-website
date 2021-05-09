@@ -7,6 +7,9 @@ var config = {
         "name": "TKDKid1000",
         "url": "https://github.com/TKDKid1000"
     },
-    "title": "TKDKid1000's Website"
+    "title": "TKDKid1000's Website",
+    "navbar": {
+        "pages": true
+    }
 }
 module.exports = config

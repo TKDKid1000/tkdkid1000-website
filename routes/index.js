@@ -13,6 +13,12 @@ module.exports = function (app) {
         if (session.attributes === undefined) {
             session.attributes = {}
         }
-        res.render("index", {title: config.title, "config": config, "user": session.attributes.user, alerts: []})
+        var files = []
+        fs.readdirSync("./pages").forEach(file => {
+            if (path.extname(file) == ".md") {
+                files.push(file.replace(".md",""))
+            }
+        })
+        res.render("index", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files})
     })
 }

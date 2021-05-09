@@ -25,6 +25,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/">Home</a>
                         </li>
+                        {% if config.navbar.pages %}
+                        <li class="nav-item btn-group">
+                            <a class="nav-link" href="/pages">Pages</a>
+                            <a type="button" class="nav-link dropdown-toggle dropdown-toggle-split" data-bs-toggle="pagesDropdown" aria-expanded="false">
+                                <span class="visually-hidden"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% for page in custompages %}
+                                <li><a class="dropdown-item" href="/pages/{{ page }}">{{ page | capitalize }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% endif %}
                     </ul>
                     <ul class="navbar-nav navbar-right">
                         {% if user.email %}

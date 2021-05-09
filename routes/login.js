@@ -13,7 +13,13 @@ module.exports = function (app) {
         if (session.attributes === undefined) {
             session.attributes = {}
         }
-        res.render("login", {title: config.title, "config": config, "user": session.attributes.user})
+        var files = []
+        fs.readdirSync("./pages").forEach(file => {
+            if (path.extname(file) == ".md") {
+                files.push(file.replace(".md",""))
+            }
+        })
+        res.render("login", {title: config.title, "config": config, "user": session.attributes.user, custompages: files})
     })
     
     app.post("/login", (req, res) => {
@@ -21,6 +27,12 @@ module.exports = function (app) {
         if (session.attributes === undefined) {
             session.attributes = {}
         }
+        var files = []
+        fs.readdirSync("./pages").forEach(file => {
+            if (path.extname(file) == ".md") {
+                files.push(file.replace(".md",""))
+            }
+        })
         const users = utils.readJson("./data/users.json")
         const params = req.body
         var alerts = []
@@ -36,6 +48,6 @@ module.exports = function (app) {
         } else {
             alerts.push({text: "No user is registered with that email!", type: "danger"})
         }
-        res.render("login", {title: config.title, "config": config, "user": session.attributes.user, alerts: alerts})
+        res.render("login", {title: config.title, "config": config, "user": session.attributes.user, alerts: alerts, custompages: files})
     })
 }
