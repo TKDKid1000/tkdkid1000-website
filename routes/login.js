@@ -48,6 +48,5 @@ module.exports = function (app) {
         } else {
             alerts.push({text: "No user is registered with that email!", type: "danger"})
         }
-        res.render("login", {title: config.title, "config": config, "user": session.attributes.user, alerts: alerts, custompages: files})
     })
 }
