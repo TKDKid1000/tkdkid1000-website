@@ -41,6 +41,7 @@ module.exports = function (app) {
                 if (users[params.email]["password"] == params.password) {
                     session.attributes.user = {"email": params.email, "password": params.password}
                     res.redirect("/")
+                    return
                 } else {
                     alerts.push({text: "An incorrect password was specified!", type: "danger"})
                 }
@@ -48,5 +49,6 @@ module.exports = function (app) {
         } else {
             alerts.push({text: "No user is registered with that email!", type: "danger"})
         }
+        res.render("login", {title: config.title, "config": config, "user": session.attributes.user, alerts: alerts, custompages: files})
     })
 }
