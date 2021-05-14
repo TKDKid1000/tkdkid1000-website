@@ -19,7 +19,7 @@ module.exports = function (app) {
                 files.push(file.replace(".md",""))
             }
         })
-        res.render("login", {title: config.title, "config": config, "user": session.attributes.user, custompages: files})
+        res.render("login", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, custompages: files})
     })
     
     app.post("/login", (req, res) => {
@@ -49,6 +49,6 @@ module.exports = function (app) {
         } else {
             alerts.push({text: "No user is registered with that email!", type: "danger"})
         }
-        res.render("login", {title: config.title, "config": config, "user": session.attributes.user, alerts: alerts, custompages: files})
+        res.render("login", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: alerts, custompages: files})
     })
 }

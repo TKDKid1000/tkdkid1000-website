@@ -4,11 +4,11 @@ const {Liquid} = require("liquidjs")
 const marked = require("marked")
 const fs = require("fs")
 const path = require('path')
-const utils = require("../utils")
-const config = require("../config")
+const utils = require("../../utils")
+const config = require("../../config")
 
 module.exports = function (app) {
-    app.get("/logout", (req, res) => {
+    app.get("/forums", (req, res) => {
         var session = req.session;
         if (session.attributes === undefined) {
             session.attributes = {}
@@ -19,7 +19,8 @@ module.exports = function (app) {
                 files.push(file.replace(".md",""))
             }
         })
-        res.render("logout", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files})
-        delete session.attributes.user
+        const forums = utils.readJson("./data/forums.json")
+        
+        res.render("forums/forums", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums})
     })
 }

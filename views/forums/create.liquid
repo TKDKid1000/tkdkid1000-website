@@ -1,0 +1,47 @@
+{% layout 'root.liquid' %}
+{% block content %}
+<form action="/forums/create" method="POST">
+    <div class="mb-3">
+        <label for="channel" class="form-label">Channel </label>
+        <select id="channel" name="channel" class="form-select" required>
+            <option value="" selected disabled hidden>Select Channel</option>
+            {% for category in forums %}
+                <optgroup label="{{ category[0] }}">
+                    {% for channel in category[1]["channels"] %}
+                        <option value="{{ category[0] }}/{{ channel[0] }}">
+                            {{ channel[0] }}
+                        </option>
+                    {% endfor %}
+                </optgroup>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="title" class="form-control" id="title" name="title" placeholder="Post title here" required>
+    </div>
+    <div class="mb-3">
+        <input name="content" id="content" type="hidden" required>
+        <div class="quilljs-editor"></div>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-success w-100" type="submit">Post</button>
+    </div>
+</form>
+<script>
+    var quilljs = new Quill(".quilljs-editor", {
+        theme: "snow",
+        modules: {
+            "history": {
+                "delay": 2500,
+                "userOnly": true
+            }
+        },
+        placeholder: "Enter some text here"
+    })
+    $("form").on("submit", function() {
+        $("#content").val(quilljs.root.innerHTML)
+        return true;
+    })
+</script>
+{% endblock %}

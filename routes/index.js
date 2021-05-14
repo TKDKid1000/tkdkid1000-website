@@ -19,6 +19,6 @@ module.exports = function (app) {
                 files.push(file.replace(".md",""))
             }
         })
-        res.render("index", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files})
+        res.render("index", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files})
     })
 }

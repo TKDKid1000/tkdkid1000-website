@@ -4,7 +4,7 @@
   "description": "My trash testing node app",
   "main": "server.js",
   "scripts": {
-    "test": "nodemon server.js",
+    "test": "nodemon ./server.js --ignore './data/'",
     "start": "node server.js"
   },
   "author": "TKDKid1000",
@@ -15,6 +15,7 @@
     "express-session": "^1.17.1",
     "liquidjs": "^9.25.0",
     "marked": "^2.0.3",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "serve-favicon": "^2.5.0"
   }
 }

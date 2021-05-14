@@ -1,0 +1,12 @@
+{% layout 'root.liquid' %}
+{% block content %}
+{% if post %}
+<h1>{{ post.title }}</h1>
+<h4>By {{ users[post.author]["username"] }}</h4>
+<div class="container">
+    {{ post.content }}
+</div>
+{% else %}
+<p>Not Found</p>
+{% endif %}
+{% endblock %}
