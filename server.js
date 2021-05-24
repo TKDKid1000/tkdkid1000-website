@@ -17,6 +17,7 @@ app.engine("liquid", engine.express())
 app.set("views", "./views")
 app.set("view engine", "liquid")
 app.use(express.static("static"))
+app.use(express.static("assets"))
 app.use(session({secret: '947084975',saveUninitialized: true,resave: true}));
 app.use(express.urlencoded({
     extended: true
