@@ -23,6 +23,8 @@ app.use(express.urlencoded({
     extended: true
 }))
 app.use(favicon("./assets/head.png"))
+app.use("/marked", express.static("node_modules/marked"))
+app.use("/index.md", express.static("index.md"))
 
 require("./routes/index")(app)
 require("./routes/login")(app)

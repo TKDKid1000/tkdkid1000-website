@@ -1,8 +1,15 @@
 {% layout 'root.liquid' %}
 {% block content %}
-<h3>Hello everyone! I'm {{ config.author.name }}!</h3>
-<p>
-    My website. Decided to move from static (github pages) to a new approach!
-    I'll host things like public forums and stuff here.
-</p>
+<div class="row">
+    <div class="col d-flex justify-content-center">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">
+                <div class="marked" data-src="/index.md">
+                    ### Ah Snap!
+                    The data from `/index.md` failed to load. Maybe refresh?
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

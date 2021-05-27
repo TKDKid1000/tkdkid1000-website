@@ -3,5 +3,7 @@
 ```
 expressjs,
 marked,
-liquidjs
+liquidjs,
+bootstrap,
+jquery
 ```

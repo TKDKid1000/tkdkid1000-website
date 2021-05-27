@@ -9,3 +9,7 @@
     display: inline-flex;
     vertical-align: top;
 }
+body {
+    background-image: url("/background.png");
+    background-size: cover;
+}

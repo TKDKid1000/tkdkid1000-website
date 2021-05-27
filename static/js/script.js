@@ -5,4 +5,16 @@ $(document).ready(function() {
         const txt = $(this).text()
         $(this).text(new Date(parseInt(txt)).toDateString())
     })
+    $.each($(".marked"), function(index, element) {
+        const src = $(this).data("src")
+        var elem = $(this)
+        if (src !== undefined) {
+            $.ajax({url: src, success: function(result) {
+                elem.html(marked(result))
+            }})
+        } else {
+            const txt = elem.text()
+            elem.html(marked(txt))
+        }
+    })
 })

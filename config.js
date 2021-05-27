@@ -9,9 +9,9 @@ var config = {
     },
     "title": "TKDKid1000's Website",
     "navbar": {
-        "home": true,
-        "pages": true,
-        "forums": true
+        "home": "/",
+        "pages:*": "/pages",
+        "forums": "/forums"
     }
 }
 module.exports = config
