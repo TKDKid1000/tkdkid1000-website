@@ -5,3 +5,7 @@ I mostly make things for fun, but currently am working with the awesome people [
 
 I make server plugins and stuff for them. It would really help them (and me!) out, if you visited them.
 Their server ip is `venom.plus`.
+
+<div id="textedit" contenteditable="true">
+<h1>hi</h1>
+</div>
