@@ -20,7 +20,7 @@ module.exports = function (app) {
             }
         })
         if (!session.attributes.user) {
-            res.status(403).render("error/403")
+            res.status(403).render("error/403", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files})
             return
         }
         const forums = utils.readJson("./data/forums.json")

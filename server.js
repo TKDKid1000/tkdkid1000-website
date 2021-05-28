@@ -37,12 +37,9 @@ require("./routes/forums/create")(app)
 
 if (!fs.existsSync("./data/")) fs.mkdirSync("./data")
 if (!fs.existsSync("./data/users.json")) utils.writeJson("./data/users.json", {})
-if (!fs.existsSync("./data/forums.json")) utils.writeJson("./data/forums.json", {General: {description: "General channels",channels: 
-{General1: {description: "General chat channel 1",private: false,lastpost: 1,posts: [{title: "Hello World",timestamp: 1620615527544,
-content: "Hello world! This is the test post.",author: "rhoneeiler@gmail.com",comments: [{timestamp: 1620615527544,
-content: "Hello world! This is the test comment.",author: "rhoneeiler@gmail.com"}]}]}}}})
+if (!fs.existsSync("./data/forums.json")) utils.writeJson("./data/forums.json", {})
 if (!fs.existsSync("./pages/")) fs.mkdirSync("./pages")
-
+if (!fs.existsSync("./index.md")) fs.writeFileSync("./index.md", "# Your stuff here!")
 app.get("*", (req, res) => {
     var session = req.session;
     if (session.attributes === undefined) {
