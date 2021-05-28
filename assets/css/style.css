@@ -1,0 +1,16 @@
+.footer {
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    position: fixed;
+    background-color: gray;
+}
+.material-icons {
+    display: inline-flex;
+    vertical-align: top;
+}
+body {
+    background-image: url("/background.png");
+    background-size: cover;
+    padding: 30px;
+}
