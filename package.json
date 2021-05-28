@@ -4,8 +4,8 @@
   "description": "My personal website! Feel free to download it.",
   "main": "server.js",
   "scripts": {
-    "test": "nodemon ./server.js --ignore './data/'",
-    "start": "node server.js"
+    "test": "nodemon ./bin/www --ignore './data/'",
+    "start": "./bin/www"
   },
   "homepage": "https://www.tkdkid1000.net/",
   "repository": {
