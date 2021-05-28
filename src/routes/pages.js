@@ -5,7 +5,7 @@ const marked = require("marked")
 const fs = require("fs")
 const path = require('path')
 const utils = require("../utils")
-const config = require("../config")
+const config = require("../../config")
 
 module.exports = function (app) {
     app.get("/pages/:page", (req, res) => {

@@ -8,23 +8,22 @@ const marked = require("marked")
 const fs = require("fs")
 const path = require('path')
 const utils = require("./utils")
-const config = require("./config")
+const config = require("../config")
 
 const app = express()
 const engine = new Liquid()
 
 app.engine("liquid", engine.express())
-app.set("views", "./views")
+app.set("views", "./src/views")
 app.set("view engine", "liquid")
-app.use(express.static("static"))
-app.use(express.static("assets"))
+app.use(express.static("./assets"))
 app.use(session({secret: '947084975',saveUninitialized: true,resave: true}));
 app.use(express.urlencoded({
     extended: true
 }))
 app.use(favicon("./assets/head.png"))
 app.use("/marked", express.static("node_modules/marked"))
-app.use("/index.md", express.static("index.md"))
+app.use("/index.md", express.static("./index.md"))
 
 require("./routes/index")(app)
 require("./routes/login")(app)
@@ -54,6 +53,5 @@ app.get("*", (req, res) => {
     res.render("error/404", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files})
 })
 
-app.listen(config.server.port, config.server.hostname, () => {
-    console.log(`Server listening on http://${config.server.hostname}:${config.server.port}`)
-})
+
+module.exports = app
