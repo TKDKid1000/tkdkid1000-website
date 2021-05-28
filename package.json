@@ -1,11 +1,16 @@
 {
-  "name": "node-app",
+  "name": "tkdkid1000-website",
   "version": "1.0.0",
-  "description": "My trash testing node app",
+  "description": "My personal website! Feel free to download it.",
   "main": "server.js",
   "scripts": {
     "test": "nodemon ./server.js --ignore './data/'",
     "start": "node server.js"
+  },
+  "homepage": "https://www.tkdkid1000.net/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TKDKid1000/tkdkid1000-website"
   },
   "author": "TKDKid1000",
   "license": "MIT",

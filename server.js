@@ -65,9 +65,11 @@ try {
             }
         }
     })
-} catch (e) {
+} catch (e) {}
 
-}
+try {
+    fs.mkdirSync("./pages")
+} catch (e) {}
 
 app.get("*", (req, res) => {
     var session = req.session;
