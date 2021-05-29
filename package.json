@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon ./bin/www.js --ignore './data/'",
-    "start": "./bin/www.js"
+    "start": "./bin/www.js",
+    "sass": "sass ./assets/sass/:./assets/css/"
   },
   "homepage": "https://www.tkdkid1000.net/",
   "repository": {
