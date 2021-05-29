@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-const express = require("express")
-const session = require("express-session")
-const favicon = require("serve-favicon")
-const {Liquid} = require("liquidjs")
-const marked = require("marked")
-const fs = require("fs")
-const path = require('path')
-const utils = require("./utils")
-const config = require("../config")
+import express from "express"
+import session from "express-session"
+import favicon from "serve-favicon"
+import { Liquid } from "liquidjs"
+import marked from "marked"
+import fs from "fs"
+import path from 'path'
+import utils from "./utils.js"
+import config from "../config.js"
 
 const app = express()
 const engine = new Liquid()
@@ -25,14 +25,14 @@ app.use(favicon("./assets/head.png"))
 app.use("/marked", express.static("node_modules/marked"))
 app.use("/index.md", express.static("./index.md"))
 
-require("./routes/index")(app)
-require("./routes/login")(app)
-require("./routes/register")(app)
-require("./routes/logout")(app)
-require("./routes/pages")(app)
-require("./routes/forums/forums")(app)
-require("./routes/forums/post")(app)
-require("./routes/forums/create")(app)
+import route_index from "./routes/index.js"; route_index (app)
+import route_login from "./routes/login.js"; route_login (app)
+import route_register from "./routes/register.js"; route_register (app)
+import route_logout from "./routes/logout.js"; route_logout (app)
+import route_pages from "./routes/pages.js"; route_pages (app)
+import route_forums_forums from "./routes/forums/forums.js"; route_forums_forums (app)
+import route_forums_post from "./routes/forums/post.js"; route_forums_post (app)
+import route_forums_create from "./routes/forums/create.js"; route_forums_create (app)
 
 if (!fs.existsSync("./data/")) fs.mkdirSync("./data")
 if (!fs.existsSync("./data/users.json")) utils.writeJson("./data/users.json", {})
@@ -54,4 +54,4 @@ app.get("*", (req, res) => {
 })
 
 
-module.exports = app
+export default app

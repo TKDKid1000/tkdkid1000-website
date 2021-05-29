@@ -1,11 +1,11 @@
-const fs = require("fs")
+import { writeFileSync, readFileSync } from "fs"
 
 function writeJson(file, json) {
-    fs.writeFileSync(file, JSON.stringify(json))
+    writeFileSync(file, JSON.stringify(json))
 }
 
 function readJson(file) {
-    return JSON.parse(fs.readFileSync(file))
+    return JSON.parse(readFileSync(file))
 }
 
-module.exports = {writeJson, readJson}
+export default {writeJson, readJson}

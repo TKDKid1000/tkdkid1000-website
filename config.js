@@ -15,4 +15,4 @@ var config = {
     },
     "copyright": true // This is free software. If you choose to remove this, I (and the rest of the support), will NOT help you. It's small, and just gives me a little hint.
 }
-module.exports = config
+export default config

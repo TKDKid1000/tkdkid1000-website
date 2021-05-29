@@ -1,13 +1,13 @@
-const express = require("express")
-const session = require("express-session")
-const {Liquid} = require("liquidjs")
-const marked = require("marked")
-const fs = require("fs")
-const path = require('path')
-const utils = require("../../utils")
-const config = require("../../../config")
+import express from "express"
+import session from "express-session"
+import { Liquid } from "liquidjs"
+import marked from "marked"
+import fs from "fs"
+import path from 'path'
+import utils from "../../utils.js"
+import config from "../../../config.js"
 
-module.exports = function (app) {
+export default function (app) {
     app.get("/forums/:c/:f/:p", (req, res) => {
         var session = req.session;
         if (session.attributes === undefined) {

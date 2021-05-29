@@ -4,8 +4,8 @@
   "description": "My personal website! Feel free to download it.",
   "main": "server.js",
   "scripts": {
-    "test": "nodemon ./bin/www --ignore './data/'",
-    "start": "./bin/www"
+    "test": "nodemon ./bin/www.js --ignore './data/'",
+    "start": "./bin/www.js"
   },
   "homepage": "https://www.tkdkid1000.net/",
   "repository": {
@@ -14,6 +14,7 @@
   },
   "author": "TKDKid1000",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
