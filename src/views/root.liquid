@@ -87,7 +87,7 @@
             {% block content %}{% endblock %}
         </div>
         <div class="footer">
-            &copy; <span class="year"></span> <a href="{{ config.author.url }}">{{ config.author.name }}</a>
+            {% if config.copyright %}&copy; <span class="year"></span> <a href="{{ config.author.url }}">{{ config.author.name }}</a>{% endif %}
         </div>
     </body>
 </html>
