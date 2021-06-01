@@ -1,19 +1,19 @@
 import express from "express"
-import session from "express-session"
+import session from "cookie-session"
 import { Liquid } from "liquidjs"
 import marked from "marked"
 import fs from "fs"
 import path from 'path'
 import utils from "../utils.js"
-import config from "../../config.js"
+import config from "../config.json"
 
-export default function (app) {
-    app.get("/register", (req, res) => {
+export default function (app: express.Application) {
+    app.get("/register", (req: express.Request, res: express.Response) => {
         var session = req.session;
         if (session.attributes === undefined) {
             session.attributes = {}
         }
-        var files = []
+        var files: any = []
         fs.readdirSync("./pages").forEach(file => {
             if (path.extname(file) == ".md") {
                 files.push(file.replace(".md",""))
@@ -22,21 +22,21 @@ export default function (app) {
         res.render("register", {title: config.title, "config": config, "user": session.attributes.user, custompages: files})
     })
     
-    app.post("/register", (req, res) => {
+    app.post("/register", (req: express.Request, res: express.Response) => {
         var session = req.session;
         if (session.attributes === undefined) {
             session.attributes = {}
         }
-        var files = []
+        var files: any = []
         fs.readdirSync("./pages").forEach(file => {
             if (path.extname(file) == ".md") {
                 files.push(file.replace(".md",""))
             }
         })
-        const users = utils.readJson("./data/users.json")
-        const params = req.body
-        var alerts = []
-        var usernameTaken = false
+        const users: any = utils.readJson("./data/users.json")
+        const params: any = req.body
+        var alerts: any = []
+        var usernameTaken: boolean = false
         for (var email in users) {
             if (users[email]["username"].toLowerCase() == params.username.toLowerCase()) {
                 usernameTaken = true

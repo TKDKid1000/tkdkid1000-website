@@ -1,28 +1,30 @@
 #!/usr/bin/env node
 
 import express from "express"
-import session from "express-session"
-import favicon from "serve-favicon"
+import session from "cookie-session"
 import { Liquid } from "liquidjs"
-import sasscompiler from "express-compile-sass"
 import marked from "marked"
 import fs from "fs"
 import path from 'path'
 import utils from "./utils.js"
-import config from "../config.js"
+import config from "./config.json"
 
-const app = express()
-const engine = new Liquid()
+const app: express.Application = express()
+const engine: Liquid = new Liquid()
 
 app.engine("liquid", engine.express())
 app.set("views", "./src/views")
 app.set("view engine", "liquid")
 app.use("/assets", express.static("./assets"))
-app.use(session({secret: '947084975',saveUninitialized: true,resave: true}));
+app.use(session({
+    name: "session",
+    keys: ["7ffe99ff16650c9f4c08"],
+    maxAge: 24 * 60 * 60 * 1000
+}))
 app.use(express.urlencoded({
     extended: true
 }))
-app.use(favicon("./assets/head.png"))
+app.use(require("serve-favicon")("./assets/head.png"))
 app.use("/marked", express.static("node_modules/marked"))
 app.use("/index.md", express.static("./index.md"))
 
@@ -40,12 +42,12 @@ if (!fs.existsSync("./data/users.json")) utils.writeJson("./data/users.json", {}
 if (!fs.existsSync("./data/forums.json")) utils.writeJson("./data/forums.json", {})
 if (!fs.existsSync("./pages/")) fs.mkdirSync("./pages")
 if (!fs.existsSync("./index.md")) fs.writeFileSync("./index.md", "# Your stuff here!")
-app.get("*", (req, res) => {
+app.get("*", (req: express.Request, res: express.Response) => {
     var session = req.session;
     if (session.attributes === undefined) {
         session.attributes = {}
     }
-    var files = []
+    var files:any = []
     fs.readdirSync("./pages").forEach(file => {
         if (path.extname(file) == ".md") {
             files.push(file.replace(".md",""))
