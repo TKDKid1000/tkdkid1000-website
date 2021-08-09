@@ -13,7 +13,7 @@ const app: express.Application = express()
 const engine: Liquid = new Liquid()
 
 app.engine("liquid", engine.express())
-app.set("views", "./src/views")
+app.set("views", "./views")
 app.set("view engine", "liquid")
 app.use("/assets", express.static("./assets"))
 app.use(session({

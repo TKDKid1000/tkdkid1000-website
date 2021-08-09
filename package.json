@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon ./bin/www.js --ignore './data/'",
-    "start": "./bin/www.js",
+    "start": "./bin/www",
     "sass": "sass ./assets/sass/:./assets/css/",
     "build": "npm run ts && npm run sass",
     "ts": "tsc -p tsconfig.json"
