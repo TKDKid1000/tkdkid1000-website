@@ -1,0 +1,10 @@
+{
+    "watch": ["src"],
+    "ext": "ts,json",
+    "delay": 3,
+    "execMap": {
+        "build": "npm run build",
+        "start": "npm start"
+    },
+    "ignore": ["./data/", "./build/", "./node_modules/", "./pages/"]
+}

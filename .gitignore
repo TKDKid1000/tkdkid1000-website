@@ -1,6 +1,6 @@
 /node_modules/
 /package-lock.json
-/target/
+/build/
 /data/
 /app/
 /deploy.sh

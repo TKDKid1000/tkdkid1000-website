@@ -4,7 +4,7 @@
   "description": "My personal website! Feel free to download it.",
   "main": "server.js",
   "scripts": {
-    "test": "nodemon ./bin/www.js --ignore './data/'",
+    "test": "nodemon nodemon.json",
     "start": "./bin/www",
     "sass": "sass ./assets/sass/:./assets/css/",
     "build": "npm run ts && npm run sass",
