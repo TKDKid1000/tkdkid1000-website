@@ -2,11 +2,11 @@
 {% block content %}
 <ul class="list-group">
     <li class="list-group-item">
-        <h1>Forums</h1>
+        <h1>{{ cat }}/{{ forum }}</h1>
     </li>
-    {% for category in forums %}
+    {% if cat and forum %}
     <li class="list-group-item">
-        <h3><a href="/forums/{{ category[0] }}">{{ category[0] }}</a> - {{ category[1]["description"] }}</h3>
+        {% assign category = forums[cat] %}
         <table class="table">
             <thead>
                 <tr>
@@ -16,20 +16,24 @@
                 </tr>
             </thead>
             <tbody>
-                {% for channel in category[1]["channels"] %}
+                {% for channel in category["channels"] %}
                 <tr>
-                    <th scope="row"><a href="/forums/{{ category[0] }}/{{ channel[0] }}">{{ channel[0] }}</a></th>
+                    <th scope="row"><a href="/forums/{{ cat }}/{{ channel[0] }}">{{ channel[0] }}</a></th>
                     <td>{{ channel[1]["description"] }}</td>
                     {% assign lastpostid = channel[1]["lastpost"] %}
                     {% assign lastpost = channel[1]["posts"][lastpostid] %}
                     {% assign lastpostuser = users[lastpost["author"]] %}
-                    <td><a href="/forums/{{ category[0] }}/{{ channel[0] }}/{{ lastpostid }}">{{ lastpost["title"] }}</a><br /><span class="material-icons">create</span>{% if lastpostuser %}<a href="/u/{{ lastpostuser["username"] }}">{{ lastpostuser["username"] }}</a>{% else %}Invalid User{% endif %}<span class="material-icons">schedule</span><span class="showdate">{{ lastpost["timestamp"] }}</span></td>
+                    <td><a href="/forums/{{ cat }}/{{ channel[0] }}/{{ lastpostid }}">{{ lastpost["title"] }}</a><br /><span class="material-icons">create</span>{% if lastpostuser %}<a href="/u/{{ lastpostuser["username"] }}">{{ lastpostuser["username"] }}</a>{% else %}Invalid User{% endif %}<span class="material-icons">schedule</span><span class="showdate">{{ lastpost["timestamp"] }}</span></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </li>
-    {% endfor %}
+    {% else %}
+    <li class="list-group-item">
+        <p>Not Found</p>
+    </li>
+    {% endif %}
     <li class="list-group-item">
         <a href="/forums/create" class="btn btn-success">Create Post</a>
     </li>
