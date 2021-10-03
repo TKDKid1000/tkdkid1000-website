@@ -34,15 +34,15 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             {% for item in config.navbar %}
-                            {% if item[0] contains ":*"%}
+                            {% if item[1] contains ":*" %}
                             <li class="nav-item btn-group">
-                                <a class="nav-link link-light" href="{{ item[1] }}"><span class="link-white">{{ item[0] | capitalize | replace: ":*", ""}}</span></a>
+                                <a class="nav-link link-light" href="{{ item[1] | replace: ":*", "" }}"><span class="link-white">{{ item[0] | capitalize }}</span></a>
                                 <a class="nav-link dropdown-toggle dropdown-toggle-split link-white" data-bs-toggle="pagesDropdown" aria-expanded="false">
                                     <span class="visually-hidden"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     {% for page in custompages %}
-                                    <li><a class="dropdown-item" href="{{ item[1] }}/{{ page }}">{{ page | capitalize }}</a></li>
+                                    <li><a class="dropdown-item" href="{{ item[1] | replace: ":*", "" }}/{{ page }}">{{ page | capitalize }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>

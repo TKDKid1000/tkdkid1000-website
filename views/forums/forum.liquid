@@ -2,7 +2,7 @@
 {% block content %}
 <ul class="list-group">
     <li class="list-group-item">
-        <h1>{{ cat }}/{{ forum }}</h1>
+        <h1>{{ cat }}/{{ forum }} - {{ forums[cat]["channels"][forum]["description"] }} </h1>
     </li>
     {% if cat and forum %}
     <li class="list-group-item">

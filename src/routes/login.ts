@@ -4,8 +4,9 @@ import { Liquid } from "liquidjs"
 import marked from "marked"
 import fs from "fs"
 import path from 'path'
-import utils from "../utils.js"
-import config from "../config.json"
+import utils from "../utils"
+import config from "../config"
+import { getUser } from "../user"
 
 export default function (app: express.Application) {
     app.get("/login", (req: express.Request, res: express.Response) => {
@@ -19,7 +20,7 @@ export default function (app: express.Application) {
                 files.push(file.replace(".md",""))
             }
         })
-        res.render("login", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, custompages: files})
+        res.render("login", {title: config.title, "config": config, "user": session.attributes.user, custompages: files})
     })
     
     app.post("/login", (req: express.Request, res: express.Response) => {
@@ -33,15 +34,25 @@ export default function (app: express.Application) {
                 files.push(file.replace(".md",""))
             }
         })
-        const users: any = utils.readJson("./data/users.json")
         const params: any = req.body
+        const user = getUser(params.email)
         var alerts: any = []
-        if (users[params.email] !== undefined) {
+        if (user !== undefined) {
             if (alerts.length == 0) {
-                if (users[params.email]["password"] == params.password) {
-                    session.attributes.user = {"email": params.email, "password": params.password}
-                    res.redirect("/")
-                    return
+                if (user.password == params.password) {
+                    if (user.verified) {
+                        console.log(user)
+                        if (user.twoFactorAuthEnabled) {
+                            session.attributes.twoFactorUser = user.email
+                            res.redirect("/login/2fa")
+                        } else {
+                            session.attributes.user = user
+                            res.redirect("/")
+                        }
+                        return
+                    } else {
+                        alerts.push({text: "That email is not yet verified!", type: "danger"})
+                    }
                 } else {
                     alerts.push({text: "An incorrect password was specified!", type: "danger"})
                 }
@@ -49,6 +60,6 @@ export default function (app: express.Application) {
         } else {
             alerts.push({text: "No user is registered with that email!", type: "danger"})
         }
-        res.render("login", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: alerts, custompages: files})
+        res.render("login", {title: config.title, "config": config, "user": session.attributes.user, alerts: alerts, custompages: files})
     })
 }

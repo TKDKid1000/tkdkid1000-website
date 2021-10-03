@@ -1,10 +1,19 @@
 {% layout 'root.liquid' %}
 {% block content %}
 {% if post %}
-<h1>{{ post.title }}</h1>
-<h4>By {{ users[post.author]["username"] }}</h4>
-<div class="container">
-    {{ post.content }}
+<div class="row">
+    <div class="col d-flex justify-content-center">
+        <div class="card" style="width: 100%;">
+            <div class="card-body">          
+                <h1>{{ post.title }}</h1>
+                <hr>
+                <h4>By {{ users[post.author]["username"] }}</h4>
+                <div class="container">
+                    {{ post.content }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% else %}
 <p>Not Found</p>

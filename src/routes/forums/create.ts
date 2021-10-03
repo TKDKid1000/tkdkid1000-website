@@ -5,7 +5,7 @@ import marked from "marked"
 import fs from "fs"
 import path from 'path'
 import utils from "../../utils.js"
-import config from "../../config.json"
+import config from "../../config"
 
 export default function (app: express.Application) {
     app.get("/forums/create", (req: express.Request, res: express.Response) => {
@@ -20,11 +20,11 @@ export default function (app: express.Application) {
             }
         })
         if (!session.attributes.user) {
-            res.status(403).render("error/403", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files})
+            res.status(403).render("error/403", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files})
             return
         }
         const forums: any = utils.readJson("./data/forums.json")
-        res.render("forums/create", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums})
+        res.render("forums/create", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums})
     })
     app.post("/forums/create", (req: express.Request, res: express.Response) => {
         var session = req.session;
@@ -50,7 +50,7 @@ export default function (app: express.Application) {
             })
             forums[channelPath[0]]["channels"][channelPath[1]]["lastpost"] = forums[channelPath[0]]["channels"][channelPath[1]]["posts"].length-1
             utils.writeJson("./data/forums.json", forums)
-            res.render("forums/forums", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [{text: "Successfully posted to the forums!", type: "success"}], custompages: files, forums: forums})
+            res.render("forums/forums", {title: config.title, "config": config, "user": session.attributes.user, alerts: [{text: "Successfully posted to the forums!", type: "success"}], custompages: files, forums: forums})
         } else {
             res.status(403).render("error/403")
         }

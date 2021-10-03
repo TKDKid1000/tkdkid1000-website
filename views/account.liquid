@@ -1,0 +1,12 @@
+{% layout 'root.liquid' %}
+{% block content %}
+<form action="/account" method="POST">
+    <div class="mb-3">
+        <input type="text" class="form-control" id="token" name="token" placeholder="123456" inputmode="numeric" pattern="[0-9]*">
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-success w-100" type="submit">Authorize</button>
+    </div>
+</form>
+<img src={{ user.twoFactorAuth.qr }}>
+{% endblock %}

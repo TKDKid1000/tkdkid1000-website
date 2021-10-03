@@ -10,8 +10,9 @@
     "title": "TKDKid1000's Website",
     "navbar": {
         "home": "/",
-        "pages:*": "/pages",
-        "forums": "/forums"
+        "pages": "/pages:*",
+        "forums": "/forums",
+        "git": "https://git.tkdkid1000.net/"
     },
     "copyright": true
 }

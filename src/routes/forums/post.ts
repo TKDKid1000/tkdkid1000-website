@@ -5,7 +5,7 @@ import marked from "marked"
 import fs from "fs"
 import path from 'path'
 import utils from "../../utils.js"
-import config from "../../config.json"
+import config from "../../config"
 
 export default function (app: express.Application) {
     app.get("/forums/:c/:f/:p", (req: express.Request, res: express.Response) => {
@@ -21,9 +21,9 @@ export default function (app: express.Application) {
         })
         const forums: any = utils.readJson("./data/forums.json")
         try {
-            res.render("forums/post", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums, post: forums[req.params.c]["channels"][req.params.f]["posts"][req.params.p]})
+            res.render("forums/post", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums, post: forums[req.params.c]["channels"][req.params.f]["posts"][req.params.p]})
         } catch (e) {
-            res.render("forums/post", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums, post: false})
+            res.render("forums/post", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums, post: false})
         }
     })
 }

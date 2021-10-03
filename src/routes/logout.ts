@@ -5,7 +5,7 @@ import marked from "marked"
 import fs from "fs"
 import path from 'path'
 import utils from "../utils.js"
-import config from "../config.json"
+import config from "../config"
 
 export default function (app: express.Application) {
     app.get("/logout", (req: express.Request, res: express.Response) => {
@@ -19,7 +19,7 @@ export default function (app: express.Application) {
                 files.push(file.replace(".md",""))
             }
         })
-        res.render("logout", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files})
+        res.render("logout", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files})
         delete session.attributes.user
     })
 }

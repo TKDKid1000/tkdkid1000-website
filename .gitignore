@@ -6,4 +6,5 @@
 /deploy.sh
 /pages/
 /index.md
-/target/
+/data.json
+/smtpConfig.json

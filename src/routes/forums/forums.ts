@@ -5,7 +5,7 @@ import marked from "marked"
 import fs from "fs"
 import path from 'path'
 import utils from "../../utils.js"
-import config from "../../config.json"
+import config from "../../config"
 
 export default function (app: express.Application) {
     app.get("/forums", (req: express.Request, res: express.Response) => {
@@ -21,6 +21,6 @@ export default function (app: express.Application) {
         })
         const forums: any = utils.readJson("./data/forums.json")
         
-        res.render("forums/forums", {title: config.title, users: utils.readJson("./data/users.json"), "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums})
+        res.render("forums/forums", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums})
     })
 }
