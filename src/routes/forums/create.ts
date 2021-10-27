@@ -6,6 +6,7 @@ import fs from "fs"
 import path from 'path'
 import utils from "../../utils.js"
 import config from "../../config"
+import { getForums } from "../../forum.js"
 
 export default function (app: express.Application) {
     app.get("/forums/create", (req: express.Request, res: express.Response) => {
@@ -23,7 +24,7 @@ export default function (app: express.Application) {
             res.status(403).render("error/403", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files})
             return
         }
-        const forums: any = utils.readJson("./data/forums.json")
+        const forums = getForums()
         res.render("forums/create", {title: config.title, "config": config, "user": session.attributes.user, alerts: [], custompages: files, forums: forums})
     })
     app.post("/forums/create", (req: express.Request, res: express.Response) => {

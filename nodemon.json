@@ -1,10 +1,7 @@
 {
-    "watch": ["src"],
-    "ext": "ts,json",
+    "watch": ["src", "assets"],
+    "ext": "ts,json,scss",
     "delay": 3,
-    "execMap": {
-        "build": "npm run build",
-        "start": "npm start"
-    },
-    "ignore": ["./data/", "./build/", "./node_modules/", "./pages/"]
+    "exec": "npm run build && npm start",
+    "ignore": ["./build/", "./node_modules/", "./data.json", ".git"]
 }

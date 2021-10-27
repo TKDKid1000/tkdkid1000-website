@@ -1,6 +1,12 @@
-$(document).ready(function() {
+import "jquery"
+// import "jqueryui"
+import "bootstrap"
+import marked from "marked"
+
+function main() {
     $(".year").text(new Date().getFullYear())
-    $(".dropdown-toggle").dropdown()
+    
+    $(".dropdown-toggle").dropdown
     $.each($(".showdate"), function(index, element) {
         const txt = $(this).text()
         $(this).text(new Date(parseInt(txt)).toDateString())
@@ -17,4 +23,6 @@ $(document).ready(function() {
             elem.html(marked(txt))
         }
     })
-})
+}
+
+export {main}

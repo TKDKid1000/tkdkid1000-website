@@ -1,6 +1,9 @@
-$(document).ready(function() {
+import "jquery"
+// import "jqueryui"
+
+function admin() {
     $(".sortable-list").sortable()
-    $("#save").click(function() {
+    $("#save").on("click", function() {
         const sort = $("#sort")[0]
         // https://stackoverflow.com/a/44293677
         const Elem = e => ({
@@ -13,8 +16,7 @@ $(document).ready(function() {
         })
         const htmlToJson = e => JSON.stringify(Elem(e), null, "  ")
         //
-        var forums
-        forums = $("#sort").sortable("toArray")
+        var forums = $("#sort").sortable("toArray")
         console.log(forums)
         forums.forEach(element => {
             console.log(typeof(element))
@@ -23,4 +25,6 @@ $(document).ready(function() {
         // $("#editor-type").val("forums");
         // $("#admin-form").submit()
     })
-})
+}
+
+export {admin}

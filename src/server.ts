@@ -15,7 +15,7 @@ const engine: Liquid = new Liquid()
 app.engine("liquid", engine.express())
 app.set("views", "./views")
 app.set("view engine", "liquid")
-app.use("/assets", express.static("./assets"))
+app.use("/assets", express.static("./public"))
 app.use(session({
     name: "session",
     keys: ["7ffe99ff16650c9f4c08"],
@@ -24,7 +24,7 @@ app.use(session({
 app.use(express.urlencoded({
     extended: true
 }))
-app.use(require("serve-favicon")("./assets/head.png"))
+app.use(require("serve-favicon")("./assets/img/head.png"))
 app.use("/marked", express.static("node_modules/marked"))
 app.use("/index.md", express.static("./index.md"))
 
@@ -40,9 +40,7 @@ import route_forums_post from "./routes/forums/post"; route_forums_post (app)
 import route_forums_create from "./routes/forums/create"; route_forums_create (app)
 import route_forums_category from "./routes/forums/category"; route_forums_category (app)
 import route_forums_forum from "./routes/forums/forum"; route_forums_forum (app)
-import route_admin from "./routes/admin";import { sendEmail } from "./email"
-import { userExists, usernameTaken } from "./user"
- route_admin (app)
+import route_admin from "./routes/admin"; route_admin (app)
 
 if (!fs.existsSync("./data/")) fs.mkdirSync("./data")
 if (!fs.existsSync("./data/users.json")) utils.writeJson("./data/users.json", {})
