@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "module": "ES2015",
-        "target": "ES2015",
+        "module": "ES6",
+        "target": "ES6",
         "rootDir": "./assets",
         "typeRoots": ["./node_modules/@types", "./assets/@types"],
         "moduleResolution": "node",
@@ -9,6 +9,6 @@
         "resolveJsonModule": true,
         "allowJs": true
     },
-    "include": ["./assets/", "./node_modules/@types/"],
+    "include": ["./assets", "./node_modules/@types"],
     "exclude": ["./node_modules"],
   }
