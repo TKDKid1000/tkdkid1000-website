@@ -25,7 +25,7 @@
                                     {{ category[0] }}
                                     <ul class="list-group sortable-list">
                                         {% for channel in category[1]["channels"] %}
-                                            <li class="list-group-item" id="forums-channel-{{ channel[0] }}">{{ channel[0] }}</li>
+                                            <li class="list-group-item" id="forums-channel-{{ channel[0] }}" data-name="{{ channel[0] }}">{{ channel[0] }}</li>
                                         {% endfor %}
                                     </ul>
                                 </li>

@@ -28,20 +28,5 @@
         <button class="btn btn-success w-100" type="submit">Post</button>
     </div>
 </form>
-<script>
-    var quilljs = new Quill(".quilljs-editor", {
-        theme: "snow",
-        modules: {
-            "history": {
-                "delay": 2500,
-                "userOnly": true
-            }
-        },
-        placeholder: "Enter some text here"
-    })
-    $("form").on("submit", function() {
-        $("#content").val(quilljs.root.innerHTML)
-        return true;
-    })
-</script>
+<script>Bundle.forumpost()</script>
 {% endblock %}

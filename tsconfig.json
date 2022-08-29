@@ -1,15 +1,23 @@
 {
-  "compilerOptions": {
-      "module": "ES6",
-      "target": "ES6",
-      "rootDir": "./src",
-      "outDir": "./build",
-      "typeRoots": ["./node_modules/@types", "./src/@types"],
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "resolveJsonModule": true,
-      "allowJs": true
-  },
-  "include": ["./src", "./node_modules/@types"],
-  "exclude": ["./node_modules"]
+    "compilerOptions": {
+        "module": "CommonJS",
+        "target": "ES6",
+        "rootDir": "src",
+        "outDir": "./build",
+        "typeRoots": ["./node_modules/@types", "src/@types"],
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "jsx": "preserve",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "skipLibCheck": true,
+        "strict": false,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": true,
+        "incremental": true,
+        "isolatedModules": true
+    },
+    "include": ["src", "./node_modules/@types"],
+    "exclude": ["./node_modules"]
 }

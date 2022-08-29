@@ -1,8 +1,0 @@
-{
-    "service": "gmail",
-    "host": "smtp.gmail.com",
-    "auth": {
-        "user": "you@gmail.com",
-        "pass": "your_password"
-    }
-}

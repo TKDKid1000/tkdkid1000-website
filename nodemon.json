@@ -1,7 +1,0 @@
-{
-    "watch": ["src", "assets"],
-    "ext": "ts,json,scss",
-    "delay": 3,
-    "exec": "npm run build && npm start",
-    "ignore": ["./build/", "./node_modules/", "./data.json", ".git"]
-}

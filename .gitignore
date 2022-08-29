@@ -1,10 +1,8 @@
 /node_modules/
-/package-lock.json
-/build/
-/data/
-/app/
-/deploy.sh
-/pages/
-/index.md
-/data.json
-/smtpConfig.json
+.next
+.ds_store
+firebase-debug.log
+out
+.firebaserc
+.firebase
+posts/*

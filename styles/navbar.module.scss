@@ -1,0 +1,7 @@
+.navlink {
+    @apply text-slate-400 mr-2 p-1 cursor-pointer transition-all hover:brightness-125 uppercase font-bold text-xl;
+}
+
+.navbtn {
+    @apply flex items-center rounded-md text-gray-700 p-1 transition-all hover:brightness-125 uppercase font-bold text-xl;
+}
