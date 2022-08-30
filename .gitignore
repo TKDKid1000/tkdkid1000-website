@@ -6,3 +6,4 @@ out
 .firebaserc
 .firebase
 posts/*
+public/posts/*
