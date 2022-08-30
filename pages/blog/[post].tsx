@@ -13,7 +13,7 @@ import Layout from "../../components/Layout"
 const PostPage = ({ post }: { post: Post }) => {
     return (
         <Layout title={post.frontMatter.title}>
-            <div className="flex flex-col md:px-24">
+            <div className="flex flex-col lg:px-24">
                 <div className="mt-12 md:mt-24">
                     {post.frontMatter.tags.map((tag) => (
                         <span

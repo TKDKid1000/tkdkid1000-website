@@ -39,7 +39,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                         </Link>
                     </div>
                     <div>
-                        <span className="w-min font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
+                        <span className="w-max font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
                             {post.frontMatter.tags[0] || ""}
                         </span>
                         <h1 className="text-5xl font-bold mb-2">
@@ -87,7 +87,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                             </Link>
                         </div>
                         <div className="flex flex-col w-3/4">
-                            <span className="w-min font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
+                            <span className="w-max font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
                                 {post.frontMatter.tags[0] || ""}
                             </span>
                             <h1 className="text-xl font-semibold dark:text-white">
@@ -134,7 +134,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                             </Link>
                         </div>
                         <div className="flex flex-col w-3/4">
-                            <span className="w-min font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
+                            <span className="w-max font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
                                 {post.frontMatter.tags[0] || ""}
                             </span>
                             <h1 className="text-xl font-semibold dark:text-white">
