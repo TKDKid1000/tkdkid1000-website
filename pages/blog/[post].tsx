@@ -5,10 +5,24 @@ import { MDXRemote } from "next-mdx-remote"
 import { serialize } from "next-mdx-remote/serialize"
 import Image from "next/image"
 import path from "path"
-import React from "react"
+import React, { ReactNode, useState } from "react"
 import rehypeHighlight from "rehype-highlight"
 import { FrontMatter, Post } from "."
 import Layout from "../../components/Layout"
+
+const Spoiler = ({ children }: { children: ReactNode | ReactNode[] }) => {
+    const [visible, setVisible] = useState(false)
+    return (
+        <span
+            onClick={() => setVisible(true)}
+            className={`bg-gray-300 dark:bg-gray-700 cursor-pointer ${
+                !visible && "text-transparent"
+            }`}
+        >
+            {children}
+        </span>
+    )
+}
 
 const PostPage = ({ post }: { post: Post }) => {
     return (
@@ -59,7 +73,12 @@ const PostPage = ({ post }: { post: Post }) => {
                     </div>
                 </div>
                 <div className="markup">
-                    <MDXRemote compiledSource={post.mdx} />
+                    <MDXRemote
+                        compiledSource={post.mdx}
+                        components={{
+                            Spoiler
+                        }}
+                    />
                 </div>
             </div>
         </Layout>
