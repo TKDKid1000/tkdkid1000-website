@@ -3,12 +3,10 @@ import matter from "gray-matter"
 import { serialize } from "next-mdx-remote/serialize"
 import Image from "next/image"
 import path from "path"
-import React from "react"
 import rehypeHighlight from "rehype-highlight"
-import BlogPost from "../components/BlogPost"
+import BlogPost, { FrontMatter, Post } from "../components/BlogPost"
 import Layout from "../components/Layout"
 import RecentActivity from "../components/RecentActivity"
-import { FrontMatter, Post } from "./blog"
 
 const Home = ({ posts }: { posts: Post[] }) => {
     const filteredPosts = posts

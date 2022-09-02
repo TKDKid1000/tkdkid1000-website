@@ -1,22 +1,24 @@
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
 
 type Post = {
-    frontMatter: {
-        title: string
-        author: string
-        created: number
-        description: string
-        image: string
-        tags: string[]
-    }
+    frontMatter: FrontMatter
     slug: string
     mdx: string
 }
 
+type FrontMatter = {
+    title: string
+    author: string
+    created: number
+    description: string
+    image: string
+    tags: string[]
+    related: string[]
+}
+
 type BlogPostProps = {
-    size: "sm" | "md" | "lg"
+    size: "sm" | "md" | "lg" | "xs"
     post: Post
 }
 
@@ -29,7 +31,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                         <Link href={`/blog/${post.slug}`}>
                             <a className="flex">
                                 <Image
-                                    src={post.frontMatter.image}
+                                    src={"/" + post.frontMatter.image}
                                     alt="Blog post image"
                                     width={1000}
                                     height={600}
@@ -77,7 +79,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                             <Link href={`/blog/${post.slug}`}>
                                 <a>
                                     <Image
-                                        src={post.frontMatter.image}
+                                        src={"/" + post.frontMatter.image}
                                         alt="Blog post image"
                                         width={600}
                                         height={300}
@@ -124,7 +126,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                             <Link href={`/blog/${post.slug}`}>
                                 <a>
                                     <Image
-                                        src={post.frontMatter.image}
+                                        src={"/" + post.frontMatter.image}
                                         alt="Blog post image"
                                         width={168}
                                         height={176}
@@ -163,9 +165,57 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                 </div>
             )
         }
+        case "xs": {
+            return (
+                <div className="flex flex-col p-3">
+                    <div className="flex flex-col">
+                        <div className="mr-3">
+                            <Link href={`/blog/${post.slug}`}>
+                                <a>
+                                    <Image
+                                        src={"/" + post.frontMatter.image}
+                                        alt="Blog post image"
+                                        layout="responsive"
+                                        width={300}
+                                        height={150}
+                                        className="rounded-md object-cover duration-500 hover:scale-105"
+                                    />
+                                </a>
+                            </Link>
+                        </div>
+                        <div className="flex flex-col w-3/4">
+                            <span className="w-max font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
+                                {post.frontMatter.tags[0] || ""}
+                            </span>
+                            <h1 className="text-xl font-semibold dark:text-white">
+                                <Link href={`/blog/${post.slug}`}>
+                                    <a className="hover:text-blue-400">{post.frontMatter.title}</a>
+                                </Link>
+                            </h1>
+                            <p className="font-light text-sm my-2 text-gray-400">
+                                {post.frontMatter.description}
+                            </p>
+                            <div className="font-semibold text-sm mb-0.5 dark:text-white">
+                                {post.frontMatter.author}
+                            </div>
+                            <div className="font-thin font-mono text-slate-500 text-xs">
+                                {new Date(post.frontMatter.created).toLocaleString("en-US", {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric"
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex items-center py-5">
+                        <div className="flex-grow border-t border-gray-400"></div>
+                    </div>
+                </div>
+            )
+        }
     }
 }
 
-export type { BlogPostProps }
+export type { BlogPostProps, Post, FrontMatter }
 
 export default BlogPost

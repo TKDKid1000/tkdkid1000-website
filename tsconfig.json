@@ -1,23 +1,20 @@
 {
     "compilerOptions": {
-        "module": "CommonJS",
-        "target": "ES6",
-        "rootDir": "src",
-        "outDir": "./build",
-        "typeRoots": ["./node_modules/@types", "src/@types"],
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "allowJs": true,
-        "jsx": "preserve",
+        "target": "es5",
         "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
         "skipLibCheck": true,
         "strict": false,
         "forceConsistentCasingInFileNames": true,
         "noEmit": true,
         "incremental": true,
-        "isolatedModules": true
+        "esModuleInterop": true,
+        "module": "esnext",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "moduleResolution": "node"
     },
-    "include": ["src", "./node_modules/@types"],
-    "exclude": ["./node_modules"]
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules"]
 }

@@ -3,25 +3,10 @@ import matter from "gray-matter"
 import { GetStaticProps } from "next"
 import { serialize } from "next-mdx-remote/serialize"
 import path from "path"
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import rehypeHighlight from "rehype-highlight"
-import BlogPost from "../../components/BlogPost"
+import BlogPost, { FrontMatter, Post } from "../../components/BlogPost"
 import Layout from "../../components/Layout"
-
-type Post = {
-    frontMatter: FrontMatter
-    slug: string
-    mdx: string
-}
-
-type FrontMatter = {
-    title: string
-    author: string
-    created: number
-    description: string
-    image: string
-    tags: string[]
-}
 
 const groupList = <T extends unknown>(list: T[], size: number) => {
     const lists: T[][] = []
@@ -89,5 +74,3 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 export default BlogIndex
-
-export type { Post, FrontMatter }

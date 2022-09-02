@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import React, { useState } from "react"
+import { useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { AiOutlineEdit, AiOutlineGithub, AiOutlineHome, AiOutlineMenu } from "react-icons/ai"
 import { FiUser } from "react-icons/fi"
@@ -37,8 +37,8 @@ const Navbar = () => {
             </div>
             <div
                 className={`w-full ${
-                    open ? "block" : "hidden"
-                } flex-grow lg:flex lg:items-center lg:w-auto`}
+                    open ? "max-h-36" : "max-h-0"
+                } flex-grow lg:flex lg:max-h-36 lg:items-center lg:w-auto transition-all duration-500 overflow-hidden`}
             >
                 <div className="flex lg:flex-grow lg:flex-row flex-col">
                     <span className={styles.navlink}>

@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
+import useSWR from "swr"
 import { useDarkMode } from "../hooks/theme"
 
 type ActivityEvent = {
@@ -40,16 +40,17 @@ type ActivityCommit = {
     url: string
 }
 
-const RecentActivity = ({ username }: { username: string }) => {
-    const [activity, setActivity] = useState<ActivityEvent[]>([])
-    const dark = useDarkMode()
+const fetcher = (url: string) =>
+    fetch(url)
+        .then((res) => res.json())
+        .then((data: ActivityEvent[]) => data.filter((e) => e.type === "PushEvent"))
 
-    useEffect(() => {
-        fetch(`https://api.github.com/users/${username}/events?page=1`)
-            .then((res) => res.json())
-            .then((data) => data.filter((e: ActivityEvent) => e.type === "PushEvent"))
-            .then(setActivity)
-    }, [username])
+const RecentActivity = ({ username }: { username: string }) => {
+    const { data, error } = useSWR<ActivityEvent[]>(
+        `https://api.github.com/users/${username}/events?page=1`,
+        fetcher
+    )
+    const dark = useDarkMode()
 
     return (
         <div className="flex flex-col text-black dark:text-white bg-stone-300 dark:bg-stone-800 p-2 rounded">
@@ -67,39 +68,52 @@ const RecentActivity = ({ username }: { username: string }) => {
                 </Link>
             </div>
             <div className="flex flex-col">
-                {activity.map((event) => (
-                    <div key={event.id} className="p-3">
-                        <h5 className="text-lg">
-                            Created {event.payload.commits.length} commit
-                            {event.payload.commits.length > 1 ? "s" : ""} in{" "}
-                            <Link href={`https://github.com/${event.repo.name}`}>
-                                <a className="text-sky-500 hover:underline">{event.repo.name}</a>
-                            </Link>
-                        </h5>
-                        <div className="flex flex-col">
-                            <div className="text-gray-400">
-                                {new Date(Date.parse(event.created_at)).toLocaleString("en-US", {
-                                    month: "short",
-                                    day: "numeric"
-                                })}
-                            </div>
-                            <ul className="list-disc">
-                                {event.payload.commits.map((commit) => (
-                                    <li key={commit.sha} className="ml-8 mt-1 mb-1 last:mb-0">
-                                        <Link href={`https://github.com/${event.repo.name}`}>
-                                            <a className="text-sky-500 hover:underline">
-                                                {commit.message.length > 50
-                                                    ? commit.message.substring(0, 50)
-                                                    : commit.message}
-                                                {commit.message.length > 50 && <>&hellip;</>}
-                                            </a>
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                {!data && <div>Loading...</div>}
+                {error && (
+                    <div>
+                        Failed to fetch GitHub contribution data! It appears you aren&apos;t
+                        connected to the internet
                     </div>
-                ))}
+                )}
+                {data &&
+                    data.map((event) => (
+                        <div key={event.id} className="p-3">
+                            <h5 className="text-lg">
+                                Created {event.payload.commits.length} commit
+                                {event.payload.commits.length > 1 ? "s" : ""} in{" "}
+                                <Link href={`https://github.com/${event.repo.name}`}>
+                                    <a className="text-sky-500 hover:underline">
+                                        {event.repo.name}
+                                    </a>
+                                </Link>
+                            </h5>
+                            <div className="flex flex-col">
+                                <div className="text-gray-400">
+                                    {new Date(Date.parse(event.created_at)).toLocaleString(
+                                        "en-US",
+                                        {
+                                            month: "short",
+                                            day: "numeric"
+                                        }
+                                    )}
+                                </div>
+                                <ul className="list-disc">
+                                    {event.payload.commits.map((commit) => (
+                                        <li key={commit.sha} className="ml-8 mt-1 mb-1 last:mb-0">
+                                            <Link href={`https://github.com/${event.repo.name}`}>
+                                                <a className="text-sky-500 hover:underline">
+                                                    {commit.message.length > 50
+                                                        ? commit.message.substring(0, 50)
+                                                        : commit.message}
+                                                    {commit.message.length > 50 && <>&hellip;</>}
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    ))}
             </div>
         </div>
     )
