@@ -1,4 +1,5 @@
-import { collection, doc, setDoc } from "firebase/firestore"
+import { Dropdown } from "@restart/ui"
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore"
 import { getDownloadURL, ref } from "firebase/storage"
 import TimeAgo from "javascript-time-ago"
 import en from "javascript-time-ago/locale/en"
@@ -8,6 +9,7 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { useCollection } from "react-firebase-hooks/firestore"
 import { useUploadFile } from "react-firebase-hooks/storage"
 import {
+    AiFillCaretDown,
     AiOutlineBold,
     AiOutlineCode,
     AiOutlineFileImage,
@@ -32,11 +34,12 @@ type CommentProps = {
     photo: string
     content: string
     time: number
+    postId: string
 }
 
 TimeAgo.addLocale(en)
 
-const Comment = ({ id, author, photo, content, time }: CommentProps) => {
+const Comment = ({ id, author, photo, content, time, postId }: CommentProps) => {
     const timeAgo = useRef(new TimeAgo("en-US"))
 
     return (
@@ -51,11 +54,57 @@ const Comment = ({ id, author, photo, content, time }: CommentProps) => {
                     alt="Profile photo"
                 />
             </div>
-            <div className="flex flex-col highlight-src">
-                <div className="flex items-center text-sm divide-x divide-black dark:divide-white mb-2">
-                    <span className="text-blue-500 pr-2">{author}</span>
-                    <span className="text-gray-600 dark:text-gray-300 pl-2">
-                        {timeAgo.current.format(new Date(time))}
+            <div className="flex flex-col highlight-src w-full">
+                <div className="flex justify-between items-center text-sm w-full">
+                    <span className="divide-x divide-black dark:divide-white mb-2">
+                        <span className="text-blue-500 pr-2">{author}</span>
+                        <span className="text-gray-600 dark:text-gray-300 pl-2">
+                            {timeAgo.current.format(new Date(time))}
+                        </span>
+                    </span>
+                    <span>
+                        <Dropdown>
+                            <Dropdown.Toggle>
+                                {(props) => (
+                                    <button {...props} className="flex flex-row items-center">
+                                        More
+                                        <AiFillCaretDown />
+                                    </button>
+                                )}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu flip offset={[0, 8]}>
+                                {(menuProps, meta) => (
+                                    <ul
+                                        {...menuProps}
+                                        className={`shadow-md bg-white dark:bg-black border border-black dark:border-white absolute z-10 transition-all ${
+                                            meta.show
+                                                ? "visible opacity-100"
+                                                : "invisible opacity-0"
+                                        }`}
+                                    >
+                                        <button
+                                            className="text-black dark:text-white py-1 px-2 hover:bg-blue-400 transition-all"
+                                            onClick={() => {
+                                                confirm(
+                                                    "Are you sure you want to delete this comment? This action cannot be undone."
+                                                )
+                                                deleteDoc(
+                                                    doc(
+                                                        firestore,
+                                                        "/posts",
+                                                        "/comments",
+                                                        postId,
+                                                        String(id)
+                                                    )
+                                                ).then(() => {})
+                                            }}
+                                        >
+                                            Delete
+                                        </button>
+                                    </ul>
+                                )}
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </span>
                 </div>
                 <ReactMarkdown
@@ -265,6 +314,7 @@ const Comments = ({ postId }: CommentsProps) => {
                                 photo={doc.data().photo}
                                 content={doc.data().content}
                                 time={doc.data().time}
+                                postId={postId}
                             />
                         ))}
             </div>
