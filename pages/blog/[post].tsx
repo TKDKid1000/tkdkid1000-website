@@ -8,6 +8,7 @@ import path from "path"
 import { ReactNode, useState } from "react"
 import rehypeHighlight from "rehype-highlight"
 import BlogPost, { FrontMatter, Post } from "../../components/BlogPost"
+import Comments from "../../components/Comments"
 import Layout from "../../components/Layout"
 
 const Spoiler = ({ children }: { children: ReactNode | ReactNode[] }) => {
@@ -95,6 +96,9 @@ const PostPage = ({ post, relatedPosts }: { post: Post; relatedPosts: Post[] }) 
                         </div>
                     ))}
                 </div>
+            </div>
+            <div className="py-5">
+                <Comments postId={post.slug} />
             </div>
         </Layout>
     )

@@ -1,7 +1,7 @@
 import { signOut } from "firebase/auth"
 import { getDownloadURL, ref } from "firebase/storage"
 import Image from "next/image"
-import React, { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useAuthState, useSendEmailVerification, useUpdateProfile } from "react-firebase-hooks/auth"
 import { useUploadFile } from "react-firebase-hooks/storage"
 import Layout from "../components/Layout"

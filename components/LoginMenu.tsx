@@ -1,6 +1,6 @@
 import { Modal } from "@restart/ui"
 import Image from "next/image"
-import React, { useState } from "react"
+import { useState } from "react"
 import {
     useAuthState,
     useCreateUserWithEmailAndPassword,
@@ -51,7 +51,7 @@ const LoginMenu = () => {
                         <div className="flex flex-row items-center">
                             <div className="mr-3">
                                 <Image
-                                    src="/img/google-logo.svg"
+                                    src="//img/google-logo.svg"
                                     alt="Google logo"
                                     width={32}
                                     height={32}
@@ -69,7 +69,7 @@ const LoginMenu = () => {
                         <div className="flex flex-row items-center">
                             <div className="mr-3">
                                 <Image
-                                    src="/img/github-logo-dark.png"
+                                    src="//img/github-logo-dark.png"
                                     alt="GitHub logo"
                                     width={32}
                                     height={32}

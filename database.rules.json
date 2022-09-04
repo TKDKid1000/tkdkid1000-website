@@ -3,8 +3,18 @@
         ".read": true,
         "users": {
             "$uid": {
-                ".read": "$uid === auth.id",
+                ".read": "$uid === auth.uid",
                 ".write": "$uid === auth.uid"
+            }
+        },
+        "comments": {
+            ".read": true,
+            "$postId": {
+                ".read": true,
+                "$commentId": {
+                    ".read": true,
+                    ".write": "!data.exists() || data.child('author').val() === auth.uid"
+                }
             }
         }
     }
