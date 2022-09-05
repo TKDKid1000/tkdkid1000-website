@@ -8,7 +8,6 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { useCollection } from "react-firebase-hooks/firestore"
 import { AiFillCaretDown, AiOutlineSend } from "react-icons/ai"
 import { auth, firestore } from "../hooks/firebase"
-import styles from "../styles/comments.module.scss"
 import MarkdownEditor from "./MarkdownEditor"
 import MarkdownRenderer from "./MarkdownRenderer"
 
@@ -29,7 +28,8 @@ type CommentProps = {
 
 TimeAgo.addLocale(en)
 
-const Comment = ({ id, author, photo, content, time, edited, postId }: CommentProps) => {
+const Comment = ({ id, uid, author, photo, content, time, edited, postId }: CommentProps) => {
+    const [user] = useAuthState(auth)
     const timeAgo = useRef(new TimeAgo("en-US"))
     const [editing, setEditing] = useState(false)
     const [text, setText] = useState(content)
@@ -57,60 +57,62 @@ const Comment = ({ id, author, photo, content, time, edited, postId }: CommentPr
                             <span className="text-gray-600 dark:text-gray-300 pl-2">Edited</span>
                         )}
                     </span>
-                    <span>
-                        <Dropdown>
-                            <Dropdown.Toggle>
-                                {(props) => (
-                                    <button {...props} className="flex flex-row items-center">
-                                        More
-                                        <AiFillCaretDown />
-                                    </button>
-                                )}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu flip offset={[0, 8]}>
-                                {(menuProps, meta) => (
-                                    <ul
-                                        {...menuProps}
-                                        className={`shadow-md bg-white dark:bg-black border border-black dark:border-white absolute z-10 transition-all ${
-                                            meta.show
-                                                ? "visible opacity-100"
-                                                : "invisible opacity-0"
-                                        }`}
-                                    >
-                                        <button
-                                            className="text-black dark:text-white py-1 px-2 hover:bg-blue-400 transition-all list-item w-full"
-                                            onClick={() => {
-                                                const shouldDelete = confirm(
-                                                    "Are you sure you want to delete this comment? This action cannot be undone."
-                                                )
-                                                if (shouldDelete) {
-                                                    deleteDoc(
-                                                        doc(
-                                                            firestore,
-                                                            "/posts",
-                                                            "/comments",
-                                                            postId,
-                                                            String(id)
-                                                        )
+                    {user?.uid === uid && (
+                        <span>
+                            <Dropdown>
+                                <Dropdown.Toggle>
+                                    {(props) => (
+                                        <button {...props} className="flex flex-row items-center">
+                                            More
+                                            <AiFillCaretDown />
+                                        </button>
+                                    )}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu flip offset={[0, 8]}>
+                                    {(menuProps, meta) => (
+                                        <ul
+                                            {...menuProps}
+                                            className={`shadow-md bg-white dark:bg-black border border-black dark:border-white absolute z-10 transition-all ${
+                                                meta.show
+                                                    ? "visible opacity-100"
+                                                    : "invisible opacity-0"
+                                            }`}
+                                        >
+                                            <button
+                                                className="text-black dark:text-white py-1 px-2 hover:bg-blue-400 transition-all list-item w-full"
+                                                onClick={() => {
+                                                    const shouldDelete = confirm(
+                                                        "Are you sure you want to delete this comment? This action cannot be undone."
                                                     )
-                                                }
-                                            }}
-                                        >
-                                            Delete
-                                        </button>
-                                        <button
-                                            className="text-black dark:text-white py-1 px-2 hover:bg-blue-400 transition-all list-item w-full"
-                                            onClick={() => {
-                                                setEditing(true)
-                                            }}
-                                        >
-                                            Edit
-                                        </button>
-                                    </ul>
-                                )}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </span>
+                                                    if (shouldDelete) {
+                                                        deleteDoc(
+                                                            doc(
+                                                                firestore,
+                                                                "/posts",
+                                                                "/comments",
+                                                                postId,
+                                                                String(id)
+                                                            )
+                                                        )
+                                                    }
+                                                }}
+                                            >
+                                                Delete
+                                            </button>
+                                            <button
+                                                className="text-black dark:text-white py-1 px-2 hover:bg-blue-400 transition-all list-item w-full"
+                                                onClick={() => {
+                                                    setEditing(true)
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                        </ul>
+                                    )}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </span>
+                    )}
                 </div>
                 {editing ? (
                     <div className="flex flex-col">
@@ -143,7 +145,7 @@ const Comment = ({ id, author, photo, content, time, edited, postId }: CommentPr
                         </div>
                     </div>
                 ) : (
-                    <MarkdownRenderer className={styles.comment}>{content}</MarkdownRenderer>
+                    <MarkdownRenderer>{content}</MarkdownRenderer>
                 )}
             </div>
         </div>
