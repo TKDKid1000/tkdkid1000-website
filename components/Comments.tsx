@@ -8,6 +8,7 @@ import { useCallback, useRef, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useCollection } from "react-firebase-hooks/firestore"
 import { useUploadFile } from "react-firebase-hooks/storage"
+import Highlight from "react-highlight"
 import {
     AiFillCaretDown,
     AiOutlineBold,
@@ -109,7 +110,7 @@ const Comment = ({ id, author, photo, content, time, postId }: CommentProps) => 
                 </div>
                 <ReactMarkdown
                     className={styles.comment}
-                    allowedElements={["p", "a", "strong", "em", "del", "img"]}
+                    allowedElements={["p", "a", "strong", "em", "del", "img", "code", "pre"]}
                     components={{
                         img({ node, className, children, ...props }) {
                             return (
@@ -122,6 +123,18 @@ const Comment = ({ id, author, photo, content, time, postId }: CommentProps) => 
                                         alt={props.alt || ""}
                                     />
                                 </span>
+                            )
+                        },
+                        code({ node, inline, className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(className || "")
+                            return !inline && match ? (
+                                <Highlight className={className}>
+                                    {String(children).replace(/\n$/, "")}
+                                </Highlight>
+                            ) : (
+                                <code className={className} {...props}>
+                                    {children}
+                                </code>
                             )
                         }
                     }}
@@ -249,7 +262,8 @@ const Comments = ({ postId }: CommentsProps) => {
                                     <button
                                         className={styles.editorbtn}
                                         onClick={() => {
-                                            const url = prompt("Enter URL:", "https://")
+                                            const url =
+                                                prompt("Enter URL:", "https://") || "https://"
                                             writeTextbox(`[%selection%](${url})`)
                                         }}
                                     >

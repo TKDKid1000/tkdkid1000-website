@@ -3,11 +3,10 @@
 @tailwind utilities;
 
 // TODO: switch to pre:has(code.hljs) once :has is mainstream
-// also these aren't flipped on accident, it adds a nice contrast
 .highlight-src {
-    @import "highlight.js/scss/github-dark.scss";
+    @import "highlight.js/scss/github.scss";
     @media (prefers-color-scheme: dark) {
-        @import "highlight.js/scss/github.scss";
+        @import "highlight.js/scss/github-dark.scss";
     }
 }
 
