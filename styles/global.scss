@@ -8,6 +8,11 @@
     @media (prefers-color-scheme: dark) {
         @import "highlight.js/scss/github-dark.scss";
     }
+    &.hljs,
+    .hljs {
+        white-space: pre-wrap;
+        overflow-x: auto;
+    }
 }
 
 .markup {

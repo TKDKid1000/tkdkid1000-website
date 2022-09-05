@@ -73,7 +73,7 @@ const PostPage = ({ post, relatedPosts }: { post: Post; relatedPosts: Post[] }) 
                         <div className="flex-grow border-t border-blue-400"></div>
                     </div>
                 </div>
-                <div className="markup">
+                <div className="markup whitespace-pre-wrap break-words">
                     <MDXRemote
                         compiledSource={post.mdx}
                         components={{

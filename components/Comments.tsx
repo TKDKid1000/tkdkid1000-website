@@ -1,28 +1,16 @@
 import { Dropdown } from "@restart/ui"
-import { collection, deleteDoc, doc, setDoc } from "firebase/firestore"
-import { getDownloadURL, ref } from "firebase/storage"
+import { collection, deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore"
 import TimeAgo from "javascript-time-ago"
 import en from "javascript-time-ago/locale/en"
 import Image from "next/image"
-import { useCallback, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useCollection } from "react-firebase-hooks/firestore"
-import { useUploadFile } from "react-firebase-hooks/storage"
-import Highlight from "react-highlight"
-import {
-    AiFillCaretDown,
-    AiOutlineBold,
-    AiOutlineCode,
-    AiOutlineFileImage,
-    AiOutlineItalic,
-    AiOutlineLink,
-    AiOutlineSend,
-    AiOutlineStrikethrough
-} from "react-icons/ai"
-import ReactMarkdown from "react-markdown"
-import remarkGfm from "remark-gfm"
-import { auth, firestore, storage } from "../hooks/firebase"
+import { AiFillCaretDown, AiOutlineSend } from "react-icons/ai"
+import { auth, firestore } from "../hooks/firebase"
 import styles from "../styles/comments.module.scss"
+import MarkdownEditor from "./MarkdownEditor"
+import MarkdownRenderer from "./MarkdownRenderer"
 
 type CommentsProps = {
     postId: string
@@ -35,13 +23,16 @@ type CommentProps = {
     photo: string
     content: string
     time: number
+    edited: boolean
     postId: string
 }
 
 TimeAgo.addLocale(en)
 
-const Comment = ({ id, author, photo, content, time, postId }: CommentProps) => {
+const Comment = ({ id, author, photo, content, time, edited, postId }: CommentProps) => {
     const timeAgo = useRef(new TimeAgo("en-US"))
+    const [editing, setEditing] = useState(false)
+    const [text, setText] = useState(content)
 
     return (
         <div key={id} className="flex flex-row mb-4">
@@ -59,9 +50,12 @@ const Comment = ({ id, author, photo, content, time, postId }: CommentProps) => 
                 <div className="flex justify-between items-center text-sm w-full">
                     <span className="divide-x divide-black dark:divide-white mb-2">
                         <span className="text-blue-500 pr-2">{author}</span>
-                        <span className="text-gray-600 dark:text-gray-300 pl-2">
+                        <span className="text-gray-600 dark:text-gray-300 px-2">
                             {timeAgo.current.format(new Date(time))}
                         </span>
+                        {edited && (
+                            <span className="text-gray-600 dark:text-gray-300 pl-2">Edited</span>
+                        )}
                     </span>
                     <span>
                         <Dropdown>
@@ -84,23 +78,33 @@ const Comment = ({ id, author, photo, content, time, postId }: CommentProps) => 
                                         }`}
                                     >
                                         <button
-                                            className="text-black dark:text-white py-1 px-2 hover:bg-blue-400 transition-all"
+                                            className="text-black dark:text-white py-1 px-2 hover:bg-blue-400 transition-all list-item w-full"
                                             onClick={() => {
-                                                confirm(
+                                                const shouldDelete = confirm(
                                                     "Are you sure you want to delete this comment? This action cannot be undone."
                                                 )
-                                                deleteDoc(
-                                                    doc(
-                                                        firestore,
-                                                        "/posts",
-                                                        "/comments",
-                                                        postId,
-                                                        String(id)
+                                                if (shouldDelete) {
+                                                    deleteDoc(
+                                                        doc(
+                                                            firestore,
+                                                            "/posts",
+                                                            "/comments",
+                                                            postId,
+                                                            String(id)
+                                                        )
                                                     )
-                                                ).then(() => {})
+                                                }
                                             }}
                                         >
                                             Delete
+                                        </button>
+                                        <button
+                                            className="text-black dark:text-white py-1 px-2 hover:bg-blue-400 transition-all list-item w-full"
+                                            onClick={() => {
+                                                setEditing(true)
+                                            }}
+                                        >
+                                            Edit
                                         </button>
                                     </ul>
                                 )}
@@ -108,40 +112,39 @@ const Comment = ({ id, author, photo, content, time, postId }: CommentProps) => 
                         </Dropdown>
                     </span>
                 </div>
-                <ReactMarkdown
-                    className={styles.comment}
-                    allowedElements={["p", "a", "strong", "em", "del", "img", "code", "pre"]}
-                    components={{
-                        img({ node, className, children, ...props }) {
-                            return (
-                                <span className="w-1/4 block">
-                                    <Image
-                                        src={props.src}
-                                        layout="responsive"
-                                        width={16}
-                                        height={16}
-                                        alt={props.alt || ""}
-                                    />
-                                </span>
-                            )
-                        },
-                        code({ node, inline, className, children, ...props }) {
-                            const match = /language-(\w+)/.exec(className || "")
-                            return !inline && match ? (
-                                <Highlight className={className}>
-                                    {String(children).replace(/\n$/, "")}
-                                </Highlight>
-                            ) : (
-                                <code className={className} {...props}>
-                                    {children}
-                                </code>
-                            )
-                        }
-                    }}
-                    remarkPlugins={[remarkGfm]}
-                >
-                    {content}
-                </ReactMarkdown>
+                {editing ? (
+                    <div className="flex flex-col">
+                        <MarkdownEditor value={text} onChange={setText} />
+                        <div className="flex flex-row items-center justify-end mt-1">
+                            <button
+                                className="text-blue-400 hover:text-blue-700 py-1 px-2 transition-all"
+                                onClick={() => {
+                                    setEditing(false)
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                disabled={text.length < 1}
+                                className="text-white bg-gray-500 py-1 px-2 rounded disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                onClick={() => {
+                                    setEditing(false)
+                                    updateDoc(
+                                        doc(firestore, "/posts", "/comments", postId, String(id)),
+                                        {
+                                            content: text,
+                                            edited: true
+                                        }
+                                    )
+                                }}
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <MarkdownRenderer className={styles.comment}>{content}</MarkdownRenderer>
+                )}
             </div>
         </div>
     )
@@ -155,24 +158,7 @@ const Comments = ({ postId }: CommentsProps) => {
             snapshotListenOptions: { includeMetadataChanges: true }
         }
     )
-    const [uploadFile] = useUploadFile()
-
     const [text, setText] = useState("")
-    const textRef = useRef<HTMLTextAreaElement>(null)
-    const fileInputRef = useRef<HTMLInputElement>(null)
-
-    const writeTextbox = useCallback(
-        (s: string) => {
-            const start = textRef.current.selectionStart
-            const end = textRef.current.selectionEnd
-            const selection = text.substring(start, end)
-            let t = text.slice(0, start) + text.slice(selection.length + start)
-            t = t.slice(0, start) + s.replace("%selection%", selection) + t.slice(start)
-            setText(t)
-            textRef.current.select()
-        },
-        [text]
-    )
 
     return (
         <div className="flex flex-col text-white">
@@ -190,93 +176,7 @@ const Comments = ({ postId }: CommentsProps) => {
                                     className="object-cover rounded"
                                 />
                             </div>
-                            <div className="flex flex-col w-full">
-                                <textarea
-                                    value={text}
-                                    ref={textRef}
-                                    placeholder="Write a comment..."
-                                    onChange={(e) => setText(e.target.value)}
-                                    spellCheck={false}
-                                    className="text-black dark:text-white bg-white dark:bg-black p-2 w-full rounded-t border-gray-400 border-solid border-2 leading-tight outline-none min-h-[40px]"
-                                />
-                                <div className="flex items-center p-2 bg-gray-200 dark:bg-gray-900 w-full rounded-b border-gray-400 border-solid border-2 border-t-0">
-                                    <input
-                                        type={"file"}
-                                        ref={fileInputRef}
-                                        hidden
-                                        accept="image/*"
-                                        onChange={(event) => {
-                                            const file = event.target.files
-                                                ? event.target.files[0]
-                                                : undefined
-
-                                            if (file && user?.uid) {
-                                                const photoId = Math.floor(
-                                                    Math.random() * Date.now()
-                                                )
-                                                const storageRef = ref(
-                                                    storage,
-                                                    `/posts/comments/${photoId}`
-                                                )
-                                                uploadFile(storageRef, file, {
-                                                    contentType: file.type
-                                                })
-                                                    .then((res) =>
-                                                        getDownloadURL(
-                                                            ref(storage, res?.ref.toString())
-                                                        )
-                                                    )
-                                                    .then((url) =>
-                                                        writeTextbox(`![%selection%](${url})`)
-                                                    )
-                                                    .catch(() => writeTextbox("![%selection%]()"))
-                                            }
-                                        }}
-                                    />
-                                    <button
-                                        className={styles.editorbtn}
-                                        onClick={() => {
-                                            fileInputRef.current.click()
-                                        }}
-                                    >
-                                        <AiOutlineFileImage />
-                                    </button>
-                                    <button
-                                        className={styles.editorbtn}
-                                        onClick={() => writeTextbox("**%selection%**")}
-                                    >
-                                        <AiOutlineBold />
-                                    </button>
-                                    <button
-                                        className={styles.editorbtn}
-                                        onClick={() => writeTextbox("_%selection%_")}
-                                    >
-                                        <AiOutlineItalic />
-                                    </button>
-                                    <button
-                                        className={styles.editorbtn}
-                                        onClick={() => writeTextbox("~~%selection%~~")}
-                                    >
-                                        <AiOutlineStrikethrough />
-                                    </button>
-                                    <button
-                                        className={styles.editorbtn}
-                                        onClick={() => {
-                                            const url =
-                                                prompt("Enter URL:", "https://") || "https://"
-                                            writeTextbox(`[%selection%](${url})`)
-                                        }}
-                                    >
-                                        <AiOutlineLink />
-                                    </button>
-                                    <button
-                                        className={styles.editorbtn}
-                                        onClick={() => writeTextbox("```%selection%```")}
-                                    >
-                                        <AiOutlineCode />
-                                    </button>
-                                </div>
-                            </div>
+                            <MarkdownEditor value={text} onChange={setText} />
                         </div>
                         <div className="flex justify-end items-center mt-2 text-black dark:text-white">
                             <div className="mr-2">
@@ -295,7 +195,8 @@ const Comments = ({ postId }: CommentsProps) => {
                                             author: user.displayName,
                                             photo: user.photoURL,
                                             content: text,
-                                            time: Date.now()
+                                            time: Date.now(),
+                                            edited: false
                                         }
                                     ).then(() => setText(""))
                                 }}
@@ -314,7 +215,7 @@ const Comments = ({ postId }: CommentsProps) => {
             </div>
             <div className="flex flex-col lg:px-24 mt-6">
                 {error && <strong>Error: {JSON.stringify(error)}</strong>}
-                {loading && <span>List: Loading...</span>}
+                {loading && <span>Loading...</span>}
                 {value &&
                     value.docs
                         .sort((a, b) => a.data().time - b.data().time)
@@ -328,6 +229,7 @@ const Comments = ({ postId }: CommentsProps) => {
                                 photo={doc.data().photo}
                                 content={doc.data().content}
                                 time={doc.data().time}
+                                edited={doc.data().edited}
                                 postId={postId}
                             />
                         ))}
