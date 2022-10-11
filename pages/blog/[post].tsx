@@ -4,6 +4,7 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import { MDXRemote } from "next-mdx-remote"
 import { serialize } from "next-mdx-remote/serialize"
 import Image from "next/image"
+import Link from "next/link"
 import path from "path"
 import { ReactNode, useState } from "react"
 import rehypeHighlight from "rehype-highlight"
@@ -77,7 +78,8 @@ const PostPage = ({ post, relatedPosts }: { post: Post; relatedPosts: Post[] }) 
                     <MDXRemote
                         compiledSource={post.mdx}
                         components={{
-                            Spoiler
+                            Spoiler,
+                            Link
                         }}
                     />
                 </div>

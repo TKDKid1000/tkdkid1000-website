@@ -1,17 +1,18 @@
 import { signOut } from "firebase/auth"
+import { doc, updateDoc } from "firebase/firestore"
 import { getDownloadURL, ref } from "firebase/storage"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 import { useAuthState, useSendEmailVerification, useUpdateProfile } from "react-firebase-hooks/auth"
 import { useUploadFile } from "react-firebase-hooks/storage"
 import Layout from "../components/Layout"
-import { auth, storage } from "../hooks/firebase"
+import { auth, firestore, storage } from "../hooks/firebase"
 
 const Profile = () => {
     const [user] = useAuthState(auth)
-    const [updateProfile] = useUpdateProfile(auth)
     const [uploadFile] = useUploadFile()
     const [sendEmailVerification] = useSendEmailVerification(auth)
+    const [updateProfile] = useUpdateProfile(auth)
 
     const [name, setName] = useState("")
     const [photo, setPhoto] = useState<File>()
@@ -64,6 +65,9 @@ const Profile = () => {
                                             updateProfile({
                                                 displayName: name
                                             })
+                                            updateDoc(doc(firestore, "/users", user.uid), {
+                                                username: name
+                                            })
                                         }}
                                     >
                                         Save
@@ -102,6 +106,13 @@ const Profile = () => {
                                                         updateProfile({
                                                             photoURL: url
                                                         })
+                                                        updateDoc(
+                                                            doc(firestore, "/users", user.uid),
+                                                            {
+                                                                username: name,
+                                                                photo: url
+                                                            }
+                                                        )
                                                         setPhoto(undefined)
                                                     })
                                             }

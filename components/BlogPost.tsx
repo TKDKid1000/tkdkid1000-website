@@ -27,7 +27,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
         case "lg": {
             return (
                 <div className="flex flex-col dark:text-white lg:w-7/12">
-                    <div className="flex py-4 w-full h-2/3 lg:w-9/12 transition-all">
+                    <div className="flex py-4 w-full h-1/3 lg:w-9/12 transition-all">
                         <Link href={`/blog/${post.slug}`}>
                             <a className="flex">
                                 <Image
@@ -121,7 +121,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
         case "sm": {
             return (
                 <div className="flex flex-col p-3">
-                    <div className="flex flex-row">
+                    <div className="flex md:flex-row flex-col">
                         <div className="mr-3">
                             <Link href={`/blog/${post.slug}`}>
                                 <a>

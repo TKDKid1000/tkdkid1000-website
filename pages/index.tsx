@@ -17,8 +17,7 @@ const Home = ({ posts }: { posts: Post[] }) => {
         <Layout title="TKDKid1000">
             <div className="flex flex-col lg:flex-row">
                 <div className="flex flex-col dark:text-white lg:w-7/12">
-                    <div className="flex p-4 w-full h-2/3 lg:w-9/12 transition-all">
-                        {/* todo: change this logo to a svg of a <O:/> but this O: is a film camera */}
+                    <div className="flex p-4 w-full h-1/3 lg:w-9/12 transition-all">
                         <Image
                             src="/img/wave.svg"
                             alt="Header image"

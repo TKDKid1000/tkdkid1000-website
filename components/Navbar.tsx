@@ -1,16 +1,32 @@
+import { doc, setDoc } from "firebase/firestore"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
+import { useDocument } from "react-firebase-hooks/firestore"
 import { AiOutlineEdit, AiOutlineGithub, AiOutlineHome, AiOutlineMenu } from "react-icons/ai"
 import { FiUser } from "react-icons/fi"
-import { auth } from "../hooks/firebase"
+import { auth, firestore } from "../hooks/firebase"
 import styles from "../styles/navbar.module.scss"
 import LoginMenu from "./LoginMenu"
 
 const Navbar = () => {
     const [open, setOpen] = useState(false)
-    const [user, loading, error] = useAuthState(auth)
+    const [user] = useAuthState(auth)
+    const [userData] = useDocument(doc(firestore, `/users/${user?.uid}`), {
+        snapshotListenOptions: { includeMetadataChanges: true }
+    })
+
+    useEffect(() => {
+        if (user) {
+            if (userData && !userData.exists())
+                setDoc(doc(firestore, `/users/${user?.uid}`), {
+                    username: user.displayName,
+                    photo: user.photoURL
+                })
+        }
+    }, [user, userData])
+
     return (
         <nav
             className={`bg-slate-500 px-8 md:px-32 py-4 flex flex-wrap items-center justify-between w-full sticky top-0 z-10 shadow shadow-gray-100 dark:shadow-gray-900`}

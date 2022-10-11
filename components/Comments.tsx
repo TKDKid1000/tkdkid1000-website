@@ -5,7 +5,7 @@ import en from "javascript-time-ago/locale/en"
 import Image from "next/image"
 import { useRef, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
-import { useCollection } from "react-firebase-hooks/firestore"
+import { useCollection, useDocument } from "react-firebase-hooks/firestore"
 import { AiFillCaretDown, AiOutlineSend } from "react-icons/ai"
 import { auth, firestore } from "../hooks/firebase"
 import MarkdownEditor from "./MarkdownEditor"
@@ -18,8 +18,6 @@ type CommentsProps = {
 type CommentProps = {
     id: number
     uid: string
-    author: string
-    photo: string
     content: string
     time: number
     edited: boolean
@@ -28,8 +26,11 @@ type CommentProps = {
 
 TimeAgo.addLocale(en)
 
-const Comment = ({ id, uid, author, photo, content, time, edited, postId }: CommentProps) => {
+const Comment = ({ id, uid, content, time, edited, postId }: CommentProps) => {
     const [user] = useAuthState(auth)
+    const [authorData] = useDocument(doc(firestore, `/users/${uid}`), {
+        snapshotListenOptions: { includeMetadataChanges: true }
+    })
     const timeAgo = useRef(new TimeAgo("en-US"))
     const [editing, setEditing] = useState(false)
     const [text, setText] = useState(content)
@@ -38,7 +39,7 @@ const Comment = ({ id, uid, author, photo, content, time, edited, postId }: Comm
         <div key={id} className="flex flex-row mb-4">
             <div className="flex items-start pr-3">
                 <Image
-                    src={photo}
+                    src={authorData?.data()?.photo}
                     className="rounded"
                     layout="fixed"
                     width={48}
@@ -49,7 +50,7 @@ const Comment = ({ id, uid, author, photo, content, time, edited, postId }: Comm
             <div className="flex flex-col highlight-src w-full">
                 <div className="flex justify-between items-center text-sm w-full">
                     <span className="divide-x divide-black dark:divide-white mb-2">
-                        <span className="text-blue-500 pr-2">{author}</span>
+                        <span className="text-blue-500 pr-2">{authorData?.data()?.username}</span>
                         <span className="text-gray-600 dark:text-gray-300 px-2">
                             {timeAgo.current.format(new Date(time))}
                         </span>
@@ -194,8 +195,6 @@ const Comments = ({ postId }: CommentsProps) => {
                                         {
                                             id,
                                             uid: user.uid,
-                                            author: user.displayName,
-                                            photo: user.photoURL,
                                             content: text,
                                             time: Date.now(),
                                             edited: false
@@ -227,8 +226,6 @@ const Comments = ({ postId }: CommentsProps) => {
                                 key={doc.data().id}
                                 id={doc.data().id}
                                 uid={doc.data().uid}
-                                author={doc.data().author}
-                                photo={doc.data().photo}
                                 content={doc.data().content}
                                 time={doc.data().time}
                                 edited={doc.data().edited}

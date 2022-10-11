@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm"
 
 const MarkdownRenderer = ({ ...props }: ReactMarkdownOptions) => {
     return (
-        <div className="markup">
+        <div className="markup whitespace-pre-wrap break-all">
             <ReactMarkdown
                 {...props}
                 allowedElements={["p", "a", "strong", "em", "del", "img", "code", "pre"]}

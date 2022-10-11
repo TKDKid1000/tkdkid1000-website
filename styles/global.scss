@@ -39,4 +39,13 @@
     a {
         @apply text-blue-500 hover:underline;
     }
+    ul {
+        @apply list-disc;
+    }
+    ol {
+        @apply list-decimal;
+    }
+    li {
+        @apply list-item ml-5;
+    }
 }
