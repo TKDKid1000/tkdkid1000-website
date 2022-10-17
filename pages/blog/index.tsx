@@ -70,7 +70,7 @@ export const getStaticProps: GetStaticProps = async () => {
             mdx
         })
     }
-    return { props: { posts } }
+    return { props: { posts }, revalidate: 300 }
 }
 
 export default BlogIndex

@@ -171,7 +171,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
         }
     }
 
-    return { props: { post, relatedPosts } }
+    return { props: { post, relatedPosts }, revalidate: 300 }
 }
 
 export default PostPage

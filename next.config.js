@@ -5,12 +5,12 @@ const rehypeHighlight = import("rehype-highlight")
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-    pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
-    // images: {
-    //     // domains: ["lh3.googleusercontent.com"],
-    //     loader: "akamai",
-    //     path: ""
-    // },
+    pageExtensions: ["js", "jsx", "ts", "tsx"],
+    images: {
+        domains: ["lh3.googleusercontent.com", "cdn.sanity.io"]
+        //     loader: "akamai",
+        //     path: ""
+    },
     webpack: (config, options) => {
         config.module.rules.push({
             test: /\.mdx?$/,
