@@ -28,7 +28,7 @@ const Spoiler = ({ children }: { children: ReactNode | ReactNode[] }) => {
 
 const PostPage = ({ post, relatedPosts }: { post: Post; relatedPosts: Post[] }) => {
     return (
-        <Layout title={post.frontMatter.title}>
+        <Layout title={post.frontMatter.title} className="px-8 md:px-24 lg:px-32 pb-3">
             <div className="flex flex-col lg:px-24">
                 <div className="mt-12 md:mt-24">
                     {post.frontMatter.tags.map((tag) => (

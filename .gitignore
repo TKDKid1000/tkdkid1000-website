@@ -7,3 +7,4 @@ out
 .firebase
 posts/*
 public/posts/*
+.vercel

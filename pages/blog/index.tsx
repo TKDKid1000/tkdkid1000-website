@@ -27,7 +27,7 @@ const BlogIndex = ({ posts }: { posts: Post[] }) => {
         console.log(postGroups)
     }, [postGroups])
     return (
-        <Layout title="Blog">
+        <Layout title="Blog" className="px-8 md:px-24 lg:px-32 pb-3">
             {postGroups.map((group, index) => (
                 <div key={index}>
                     <div className="flex flex-col lg:flex-row">

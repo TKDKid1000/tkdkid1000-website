@@ -6,11 +6,11 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
-    images: {
-        // domains: ["lh3.googleusercontent.com"],
-        loader: "akamai",
-        path: ""
-    },
+    // images: {
+    //     // domains: ["lh3.googleusercontent.com"],
+    //     loader: "akamai",
+    //     path: ""
+    // },
     webpack: (config, options) => {
         config.module.rules.push({
             test: /\.mdx?$/,
@@ -27,11 +27,6 @@ const nextConfig = {
             ]
         })
         return config
-    },
-    experimental: {
-        images: {
-            allowFutureImage: true
-        }
     }
 }
 

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { AiFillGithub, AiFillRedditCircle, AiFillYoutube } from "react-icons/ai"
+import { BsGithub, BsSpotify } from "react-icons/bs"
 
 const Footer = () => {
     return (
@@ -9,21 +9,14 @@ const Footer = () => {
                     <span className="mr-3">
                         <Link href={"https://github.com/TKDKid1000"}>
                             <a className="transition-all hover:brightness-125">
-                                <AiFillGithub size={24} />
+                                <BsGithub size={24} />
                             </a>
                         </Link>
                     </span>
                     <span className="mr-3">
-                        <Link href={"https://youtube.com/channel/UC6OwB4gGOL-CaIWZ5uoE_sg"}>
+                        <Link href={"https://open.spotify.com/user/sqpw6aq5ndkabc4cgfoyg9lf6"}>
                             <a className="transition-all hover:brightness-125">
-                                <AiFillYoutube size={24} />
-                            </a>
-                        </Link>
-                    </span>
-                    <span className="mr-3">
-                        <Link href={"https://reddit.com/u/TKDKid1000"}>
-                            <a className="transition-all hover:brightness-125">
-                                <AiFillRedditCircle size={24} />
+                                <BsSpotify size={24} />
                             </a>
                         </Link>
                     </span>

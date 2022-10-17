@@ -26,7 +26,7 @@ const Profile = () => {
     }, [user])
 
     return (
-        <Layout title="Profile">
+        <Layout title="Profile" className="px-8 md:px-24 lg:px-32 pb-3">
             <div className="flex flex-col p-2 mb-8">
                 <h1 className="text-4xl text-black dark:text-white font-bold">Profile</h1>
                 {user && !user?.emailVerified && (
