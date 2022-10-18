@@ -6,7 +6,8 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import { useDocument } from "react-firebase-hooks/firestore"
 import { AiOutlineEdit, AiOutlineGithub, AiOutlineHome, AiOutlineMenu } from "react-icons/ai"
 import { FiUser } from "react-icons/fi"
-import { auth, firestore } from "../hooks/firebase"
+import { auth, firestore } from "../lib/firebase"
+import favicon from "../public/img/head.png"
 import styles from "../styles/navbar.module.scss"
 import LoginMenu from "./LoginMenu"
 
@@ -33,7 +34,7 @@ const Navbar = () => {
         >
             <div className="flex items-center flex-shrink-0 mr-3">
                 <Image
-                    src="//img/head.png"
+                    src={favicon}
                     alt="Logo Image"
                     width={32}
                     height={32}

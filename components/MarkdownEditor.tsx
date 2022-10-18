@@ -11,7 +11,7 @@ import {
     AiOutlineLink,
     AiOutlineStrikethrough
 } from "react-icons/ai"
-import { auth, storage } from "../hooks/firebase"
+import { auth, storage } from "../lib/firebase"
 import styles from "../styles/comments.module.scss"
 import MarkdownRenderer from "./MarkdownRenderer"
 

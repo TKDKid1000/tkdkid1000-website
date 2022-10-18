@@ -7,7 +7,7 @@ import { useRef, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useCollection, useDocument } from "react-firebase-hooks/firestore"
 import { AiFillCaretDown, AiOutlineSend } from "react-icons/ai"
-import { auth, firestore } from "../hooks/firebase"
+import { auth, firestore } from "../lib/firebase"
 import MarkdownEditor from "./MarkdownEditor"
 import MarkdownRenderer from "./MarkdownRenderer"
 

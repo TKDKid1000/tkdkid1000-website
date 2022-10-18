@@ -1,23 +1,14 @@
 import { animated, config, useSpring, useSprings } from "@react-spring/web"
-import fs from "fs/promises"
-import matter from "gray-matter"
-import { serialize } from "next-mdx-remote/serialize"
 import Image from "next/image"
-import path from "path"
-import rehypeHighlight from "rehype-highlight"
-import BlogPost, { FrontMatter, Post } from "../components/BlogPost"
+import BlogPost, { Post } from "../components/BlogPost"
 import Layout from "../components/Layout"
 import OuterSpace from "../components/OuterSpace"
 import RecentActivity from "../components/RecentActivity"
 import { useScroll } from "../hooks/scroll"
+import { sanity } from "../lib/sanity"
 import styles from "../styles/space.module.scss"
 
 const Home = ({ posts }: { posts: Post[] }) => {
-    const filteredPosts = posts
-        .sort((a, b) => a.frontMatter.created - b.frontMatter.created)
-        .reverse()
-        .slice(0, 5)
-
     const scroll = useScroll()
 
     const title = useSpring({
@@ -107,13 +98,13 @@ const Home = ({ posts }: { posts: Post[] }) => {
                     </div>
                 </div>
                 <div className="flex flex-col lg:w-5/12">
-                    {filteredPosts.slice(Math.max(filteredPosts.length - 3, 1)).map((p) => (
+                    {posts.slice(Math.max(posts.length - 3, 1)).map((p) => (
                         <BlogPost key={p.slug} post={p} size={"sm"} />
                     ))}
                 </div>
             </div>
             <div className="flex flex-col sm:flex-row px-8 md:px-24 lg:px-32 pb-3">
-                {filteredPosts.slice(0, 2).map((p) => (
+                {posts.slice(0, 2).map((p) => (
                     <BlogPost key={p.slug} post={p} size={"md"} />
                 ))}
             </div>
@@ -123,27 +114,20 @@ const Home = ({ posts }: { posts: Post[] }) => {
 }
 
 export const getStaticProps = async () => {
-    const files = await fs.readdir(path.resolve("posts"))
-    const posts: Post[] = []
-    for await (let name of files) {
-        const md = await fs.readFile(path.resolve("posts", name), "utf-8")
-        const { data: frontMatter, content } = matter(md)
-
-        const { compiledSource: mdx } = await serialize(content, {
-            mdxOptions: {
-                rehypePlugins: [rehypeHighlight]
-            }
-        })
-
-        const slug = name.split(".")[0].replace(/[^a-z0-9+]+/gi, "-")
-
-        posts.push({
-            frontMatter: frontMatter as FrontMatter,
-            slug,
-            mdx
-        })
-    }
-    return { props: { posts } }
+    const query = `
+    *[_type == "post" && !(_id in path("drafts.**"))] | order(_updatedAt desc) {
+        title, description,
+        "imageUrl": image.asset->url,
+        author->{
+          name, description,
+          "imageUrl": image.asset->url
+        }
+        ,
+        tags, _updatedAt,
+        "slug": slug.current
+      }[0..6]`
+    const posts: Post[] = await sanity.fetch(query)
+    return { props: { posts }, revalidate: 300 }
 }
 
 export default Home

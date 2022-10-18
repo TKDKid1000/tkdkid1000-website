@@ -9,6 +9,15 @@ export default {
             title: "Title"
         },
         {
+            name: "slug",
+            type: "slug",
+            title: "Slug",
+            options: {
+                source: "title",
+                maxLength: 200
+            }
+        },
+        {
             name: "description",
             type: "string",
             title: "Description"

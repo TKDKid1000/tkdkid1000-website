@@ -1,20 +1,22 @@
 import Image from "next/image"
 import Link from "next/link"
 
-type Post = {
-    frontMatter: FrontMatter
-    slug: string
-    mdx: string
+type Author = {
+    name: string
+    description: string
+    imageUrl: string
 }
 
-type FrontMatter = {
+type Post = {
     title: string
-    author: string
-    created: number
+    slug: string
+    author: Author
+    _updatedAt: string
     description: string
-    image: string
+    imageUrl: string
     tags: string[]
-    related: string[]
+    related?: Post[]
+    content: string
 }
 
 type BlogPostProps = {
@@ -31,7 +33,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                         <Link href={`/blog/${post.slug}`}>
                             <a className="flex">
                                 <Image
-                                    src={"/" + post.frontMatter.image}
+                                    src={post.imageUrl}
                                     alt="Blog post image"
                                     width={1000}
                                     height={600}
@@ -42,22 +44,20 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                     </div>
                     <div>
                         <span className="w-max font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
-                            {post.frontMatter.tags[0] || ""}
+                            {post.tags[0] || ""}
                         </span>
                         <h1 className="text-5xl font-bold mb-2">
                             <Link href={`/blog/${post.slug}`}>
-                                <a className="hover:text-blue-400">{post.frontMatter.title}</a>
+                                <a className="hover:text-blue-400">{post.title}</a>
                             </Link>
                         </h1>
-                        <p className="font-light text-lg my-2 text-gray-400">
-                            {post.frontMatter.description}
-                        </p>
+                        <p className="font-light text-lg my-2 text-gray-400">{post.description}</p>
                         <div className="flex flex-row items-center">
                             <div className="font-semibold text-sm mr-2 dark:text-white">
-                                {post.frontMatter.author}
+                                {post.author.name}
                             </div>
                             <div className="font-thin font-mono text-slate-500 text-xs">
-                                {new Date(post.frontMatter.created).toLocaleString("en-US", {
+                                {new Date(post._updatedAt).toLocaleString("en-US", {
                                     year: "numeric",
                                     month: "long",
                                     day: "numeric"
@@ -79,7 +79,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                             <Link href={`/blog/${post.slug}`}>
                                 <a>
                                     <Image
-                                        src={"/" + post.frontMatter.image}
+                                        src={post.imageUrl}
                                         alt="Blog post image"
                                         width={600}
                                         height={300}
@@ -90,21 +90,21 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                         </div>
                         <div className="flex flex-col w-3/4">
                             <span className="w-max font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
-                                {post.frontMatter.tags[0] || ""}
+                                {post.tags[0] || ""}
                             </span>
                             <h1 className="text-xl font-semibold dark:text-white">
                                 <Link href={`/blog/${post.slug}`}>
-                                    <a className="hover:text-blue-400">{post.frontMatter.title}</a>
+                                    <a className="hover:text-blue-400">{post.title}</a>
                                 </Link>
                             </h1>
                             <p className="font-light text-sm my-2 text-gray-400">
-                                {post.frontMatter.description}
+                                {post.description}
                             </p>
                             <div className="font-semibold text-sm mb-0.5 dark:text-white">
-                                {post.frontMatter.author}
+                                {post.author.name}
                             </div>
                             <div className="font-thin font-mono text-slate-500 text-xs">
-                                {new Date(post.frontMatter.created).toLocaleString("en-US", {
+                                {new Date(post._updatedAt).toLocaleString("en-US", {
                                     year: "numeric",
                                     month: "long",
                                     day: "numeric"
@@ -126,7 +126,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                             <Link href={`/blog/${post.slug}`}>
                                 <a>
                                     <Image
-                                        src={"/" + post.frontMatter.image}
+                                        src={post.imageUrl}
                                         alt="Blog post image"
                                         width={168}
                                         height={176}
@@ -137,21 +137,21 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                         </div>
                         <div className="flex flex-col w-3/4">
                             <span className="w-max font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
-                                {post.frontMatter.tags[0] || ""}
+                                {post.tags[0] || ""}
                             </span>
                             <h1 className="text-xl font-semibold dark:text-white">
                                 <Link href={`/blog/${post.slug}`}>
-                                    <a className="hover:text-blue-400">{post.frontMatter.title}</a>
+                                    <a className="hover:text-blue-400">{post.title}</a>
                                 </Link>
                             </h1>
                             <p className="font-light text-sm my-2 text-gray-400">
-                                {post.frontMatter.description}
+                                {post.description}
                             </p>
                             <div className="font-semibold text-sm mb-0.5 dark:text-white">
-                                {post.frontMatter.author}
+                                {post.author.name}
                             </div>
                             <div className="font-thin font-mono text-slate-500 text-xs">
-                                {new Date(post.frontMatter.created).toLocaleString("en-US", {
+                                {new Date(post._updatedAt).toLocaleString("en-US", {
                                     year: "numeric",
                                     month: "long",
                                     day: "numeric"
@@ -173,7 +173,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                             <Link href={`/blog/${post.slug}`}>
                                 <a>
                                     <Image
-                                        src={"/" + post.frontMatter.image}
+                                        src={post.imageUrl}
                                         alt="Blog post image"
                                         layout="responsive"
                                         width={300}
@@ -185,21 +185,21 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
                         </div>
                         <div className="flex flex-col w-3/4">
                             <span className="w-max font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
-                                {post.frontMatter.tags[0] || ""}
+                                {post.tags[0] || ""}
                             </span>
                             <h1 className="text-xl font-semibold dark:text-white">
                                 <Link href={`/blog/${post.slug}`}>
-                                    <a className="hover:text-blue-400">{post.frontMatter.title}</a>
+                                    <a className="hover:text-blue-400">{post.title}</a>
                                 </Link>
                             </h1>
                             <p className="font-light text-sm my-2 text-gray-400">
-                                {post.frontMatter.description}
+                                {post.description}
                             </p>
                             <div className="font-semibold text-sm mb-0.5 dark:text-white">
-                                {post.frontMatter.author}
+                                {post.author.name}
                             </div>
                             <div className="font-thin font-mono text-slate-500 text-xs">
-                                {new Date(post.frontMatter.created).toLocaleString("en-US", {
+                                {new Date(post._updatedAt).toLocaleString("en-US", {
                                     year: "numeric",
                                     month: "long",
                                     day: "numeric"
@@ -216,6 +216,6 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
     }
 }
 
-export type { BlogPostProps, Post, FrontMatter }
+export type { BlogPostProps, Post, Author }
 
 export default BlogPost

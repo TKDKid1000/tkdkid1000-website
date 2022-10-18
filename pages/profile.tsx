@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react"
 import { useAuthState, useSendEmailVerification, useUpdateProfile } from "react-firebase-hooks/auth"
 import { useUploadFile } from "react-firebase-hooks/storage"
 import Layout from "../components/Layout"
-import { auth, firestore, storage } from "../hooks/firebase"
+import { auth, firestore, storage } from "../lib/firebase"
 
 const Profile = () => {
     const [user] = useAuthState(auth)

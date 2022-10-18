@@ -9,7 +9,7 @@ import {
     useSignInWithGoogle
 } from "react-firebase-hooks/auth"
 import { FiUserPlus } from "react-icons/fi"
-import { auth } from "../hooks/firebase"
+import { auth } from "../lib/firebase"
 import styles from "../styles/navbar.module.scss"
 
 const validateEmail = (email: string) =>
