@@ -1,32 +1,22 @@
-import { GetStaticPaths, GetStaticProps } from "next"
+import { GetStaticPaths, GetStaticProps, NextPage } from "next"
 import { MDXRemote } from "next-mdx-remote"
 import { serialize } from "next-mdx-remote/serialize"
 import Image from "next/image"
 import Link from "next/link"
-import { ReactNode, useState } from "react"
 import rehypeHighlight from "rehype-highlight"
 import BlogPost, { Post } from "../../components/BlogPost"
 import Comments from "../../components/Comments"
 import Layout from "../../components/Layout"
+import Terminology from "../../components/learn/Terminology"
+import Spoiler from "../../components/Spoiler"
 import { sanity } from "../../lib/sanity"
 
-const Spoiler = ({ children }: { children: ReactNode | ReactNode[] }) => {
-    const [visible, setVisible] = useState(false)
-    return (
-        <span
-            onClick={() => setVisible(true)}
-            className={`bg-gray-300 dark:bg-gray-700 cursor-pointer ${
-                !visible && "text-transparent"
-            }`}
-        >
-            {children}
-        </span>
-    )
+type PostPageProps = {
+    post: Post
 }
 
-const PostPage = ({ post }: { post: Post }) => {
+const PostPage: NextPage<PostPageProps> = ({ post }) => {
     const relatedPosts = post.related
-    console.log(post)
     return (
         <Layout title={post.title} className="px-8 md:px-24 lg:px-32 pb-3">
             <div className="flex flex-col lg:px-24">
@@ -77,7 +67,8 @@ const PostPage = ({ post }: { post: Post }) => {
                         compiledSource={post.content}
                         components={{
                             Spoiler,
-                            Link
+                            Link,
+                            Terminology
                         }}
                     />
                 </div>
@@ -105,7 +96,7 @@ const PostPage = ({ post }: { post: Post }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const query = `*[_type == "post" && !(_id in path("drafts.**"))].slug.current`
+    const query = `*[_type == "post"].slug.current`
     const slugs: string[] = await sanity.fetch(query)
     return {
         paths: slugs.map((slug) => ({
@@ -113,7 +104,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
                 post: slug
             }
         })),
-        fallback: false
+        fallback: "blocking"
     }
 }
 

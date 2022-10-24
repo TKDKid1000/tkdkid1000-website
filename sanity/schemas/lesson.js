@@ -9,6 +9,15 @@ export default {
             title: "Title"
         },
         {
+            name: "slug",
+            type: "slug",
+            title: "Slug",
+            options: {
+                source: "title",
+                maxLength: 200
+            }
+        },
+        {
             name: "description",
             type: "string",
             title: "Description"
@@ -48,21 +57,12 @@ export default {
             title: "Files",
             of: [
                 {
-                    name: "editorFile",
-                    type: "object",
-                    title: "File",
-                    fields: [
-                        {
-                            name: "name",
-                            type: "string",
-                            title: "Name"
-                        },
-                        {
-                            name: "code",
-                            type: "code",
-                            title: "Code"
-                        }
-                    ]
+                    name: "code",
+                    type: "code",
+                    title: "Code",
+                    options: {
+                        withFilename: true
+                    }
                 }
             ]
         }

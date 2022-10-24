@@ -1,5 +1,4 @@
-import { GetStaticProps } from "next"
-import { useEffect } from "react"
+import { GetStaticProps, NextPage } from "next"
 import BlogPost, { Post } from "../../components/BlogPost"
 import Layout from "../../components/Layout"
 import { sanity } from "../../lib/sanity"
@@ -13,12 +12,12 @@ const groupList = <T,>(list: T[], size: number) => {
     return lists
 }
 
-const BlogIndex = ({ posts }: { posts: Post[] }) => {
-    console.log(posts)
+type BlogIndexProps = {
+    posts: Post[]
+}
+
+const BlogIndex: NextPage<BlogIndexProps> = ({ posts }) => {
     const postGroups = groupList(posts, 6)
-    useEffect(() => {
-        console.log(postGroups)
-    }, [postGroups])
     return (
         <Layout title="Blog" className="px-8 md:px-24 lg:px-32 pb-3">
             {postGroups.map((group, index) => (
@@ -44,7 +43,7 @@ const BlogIndex = ({ posts }: { posts: Post[] }) => {
 
 export const getStaticProps: GetStaticProps = async () => {
     const query = `
-    *[_type == "post" && !(_id in path("drafts.**"))] | order(_updatedAt desc) {
+    *[_type == "post"] | order(_updatedAt desc) {
         title, description,
         "imageUrl": image.asset->url,
         author->{

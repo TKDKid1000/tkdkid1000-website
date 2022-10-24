@@ -1,7 +1,7 @@
-import React from "react"
+import { NextPage } from "next"
 import Layout from "../components/Layout"
 
-const Terms = () => {
+const Terms: NextPage = () => {
     return (
         <Layout title="Terms of Service">
             <div className="markup"></div>

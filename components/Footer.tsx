@@ -8,14 +8,14 @@ const Footer = () => {
                 <div className="flex flex-row items-center mb-4 sm:mb-0">
                     <span className="mr-3">
                         <Link href={"https://github.com/TKDKid1000"}>
-                            <a className="transition-all hover:brightness-125">
+                            <a className="transition-all hover:brightness-125" title="GitHub">
                                 <BsGithub size={24} />
                             </a>
                         </Link>
                     </span>
                     <span className="mr-3">
                         <Link href={"https://open.spotify.com/user/sqpw6aq5ndkabc4cgfoyg9lf6"}>
-                            <a className="transition-all hover:brightness-125">
+                            <a className="transition-all hover:brightness-125" title="Spotify">
                                 <BsSpotify size={24} />
                             </a>
                         </Link>
