@@ -34,16 +34,14 @@ const BlogPost = forwardRef(function BlogPost(
             return (
                 <div className="flex flex-col dark:text-white lg:w-7/12" ref={ref} {...rest}>
                     <div className="flex py-4 w-full h-1/3 lg:w-9/12 transition-all">
-                        <Link href={`/blog/${post.slug}`}>
-                            <a className="flex">
-                                <Image
-                                    src={post.imageUrl}
-                                    alt="Blog post image"
-                                    width={1000}
-                                    height={600}
-                                    className="rounded-md object-cover duration-500 hover:scale-105"
-                                />
-                            </a>
+                        <Link href={`/blog/${post.slug}`} className="flex">
+                            <Image
+                                src={post.imageUrl}
+                                alt="Blog post image"
+                                width={1000}
+                                height={600}
+                                className="rounded-md object-cover duration-500 hover:scale-105"
+                            />
                         </Link>
                     </div>
                     <div>
@@ -51,8 +49,8 @@ const BlogPost = forwardRef(function BlogPost(
                             {post.tags[0] || ""}
                         </span>
                         <h1 className="text-5xl font-bold mb-2">
-                            <Link href={`/blog/${post.slug}`}>
-                                <a className="hover:text-blue-400">{post.title}</a>
+                            <Link href={`/blog/${post.slug}`} className="hover:text-blue-400">
+                                {post.title}
                             </Link>
                         </h1>
                         <p className="font-light text-lg my-2 text-gray-400">{post.description}</p>
@@ -81,15 +79,13 @@ const BlogPost = forwardRef(function BlogPost(
                     <div className="flex flex-col">
                         <div className="mr-3">
                             <Link href={`/blog/${post.slug}`}>
-                                <a>
-                                    <Image
-                                        src={post.imageUrl}
-                                        alt="Blog post image"
-                                        width={600}
-                                        height={300}
-                                        className="rounded-md object-cover duration-500 hover:scale-105"
-                                    />
-                                </a>
+                                <Image
+                                    src={post.imageUrl}
+                                    alt="Blog post image"
+                                    width={600}
+                                    height={300}
+                                    className="rounded-md object-cover duration-500 hover:scale-105"
+                                />
                             </Link>
                         </div>
                         <div className="flex flex-col w-3/4">
@@ -97,8 +93,8 @@ const BlogPost = forwardRef(function BlogPost(
                                 {post.tags[0] || ""}
                             </span>
                             <h1 className="text-xl font-semibold dark:text-white">
-                                <Link href={`/blog/${post.slug}`}>
-                                    <a className="hover:text-blue-400">{post.title}</a>
+                                <Link href={`/blog/${post.slug}`} className="hover:text-blue-400">
+                                    {post.title}
                                 </Link>
                             </h1>
                             <p className="font-light text-sm my-2 text-gray-400">
@@ -128,15 +124,13 @@ const BlogPost = forwardRef(function BlogPost(
                     <div className="flex md:flex-row flex-col">
                         <div className="mr-3">
                             <Link href={`/blog/${post.slug}`}>
-                                <a>
-                                    <Image
-                                        src={post.imageUrl}
-                                        alt="Blog post image"
-                                        width={168}
-                                        height={176}
-                                        className="rounded-md object-cover duration-500 hover:scale-105"
-                                    />
-                                </a>
+                                <Image
+                                    src={post.imageUrl}
+                                    alt="Blog post image"
+                                    width={168}
+                                    height={176}
+                                    className="rounded-md object-cover duration-500 hover:scale-105"
+                                />
                             </Link>
                         </div>
                         <div className="flex flex-col w-3/4">
@@ -144,8 +138,8 @@ const BlogPost = forwardRef(function BlogPost(
                                 {post.tags[0] || ""}
                             </span>
                             <h1 className="text-xl font-semibold dark:text-white">
-                                <Link href={`/blog/${post.slug}`}>
-                                    <a className="hover:text-blue-400">{post.title}</a>
+                                <Link href={`/blog/${post.slug}`} className="hover:text-blue-400">
+                                    {post.title}
                                 </Link>
                             </h1>
                             <p className="font-light text-sm my-2 text-gray-400">
@@ -175,16 +169,14 @@ const BlogPost = forwardRef(function BlogPost(
                     <div className="flex flex-col">
                         <div className="mr-3">
                             <Link href={`/blog/${post.slug}`}>
-                                <a>
-                                    <Image
-                                        src={post.imageUrl}
-                                        alt="Blog post image"
-                                        layout="responsive"
-                                        width={300}
-                                        height={150}
-                                        className="rounded-md object-cover duration-500 hover:scale-105"
-                                    />
-                                </a>
+                                <Image
+                                    src={post.imageUrl}
+                                    alt="Blog post image"
+                                    layout="responsive"
+                                    width={300}
+                                    height={150}
+                                    className="rounded-md object-cover duration-500 hover:scale-105"
+                                />
                             </Link>
                         </div>
                         <div className="flex flex-col w-3/4">
@@ -192,8 +184,8 @@ const BlogPost = forwardRef(function BlogPost(
                                 {post.tags[0] || ""}
                             </span>
                             <h1 className="text-xl font-semibold dark:text-white">
-                                <Link href={`/blog/${post.slug}`}>
-                                    <a className="hover:text-blue-400">{post.title}</a>
+                                <Link href={`/blog/${post.slug}`} className="hover:text-blue-400">
+                                    {post.title}
                                 </Link>
                             </h1>
                             <p className="font-light text-sm my-2 text-gray-400">

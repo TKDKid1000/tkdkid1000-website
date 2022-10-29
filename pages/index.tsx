@@ -34,15 +34,14 @@ const HoverButton = ({
         config: config.stiff
     })
     return (
-        <Link href={href}>
-            <a
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-                className="flex flex-row gap-2 font-bold p-2 hover:bg-gray-500 hover:bg-opacity-40 rounded"
-            >
-                {icon}
-                {children.slice(0, length)}
-            </a>
+        <Link
+            href={href}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            className="flex flex-row gap-2 font-bold p-2 hover:bg-gray-500 hover:bg-opacity-40 rounded"
+        >
+            {icon}
+            {children.slice(0, length)}
         </Link>
     )
 }

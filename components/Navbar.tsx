@@ -75,57 +75,47 @@ const Navbar = () => {
             >
                 <div className="flex lg:flex-grow lg:flex-row flex-col">
                     <span className={styles.navlink}>
-                        <Link href={"/"}>
-                            <a className="flex items-center">
-                                <AiOutlineHome size={24} className="text-gray-700 mr-1" />{" "}
-                                <span>Home</span>
-                            </a>
+                        <Link href={"/"} className="flex items-center">
+                            <AiOutlineHome size={24} className="text-gray-700 mr-1" />{" "}
+                            <span>Home</span>
                         </Link>
                     </span>
                     <span className={styles.navlink}>
-                        <Link href={"/blog"}>
-                            <a className="flex items-center">
-                                <AiOutlineEdit size={24} className="text-gray-700 mr-1" />{" "}
-                                <span>Blog</span>
-                            </a>
+                        <Link href={"/blog"} className="flex items-center">
+                            <AiOutlineEdit size={24} className="text-gray-700 mr-1" />{" "}
+                            <span>Blog</span>
                         </Link>
                     </span>
                     <span className={styles.navlink}>
-                        <Link href={"/learn"}>
-                            <a className="flex items-center">
-                                <AiOutlineBulb size={24} className="text-gray-700 mr-1" />{" "}
-                                <span>Learn</span>
-                            </a>
+                        <Link href={"/learn"} className="flex items-center">
+                            <AiOutlineBulb size={24} className="text-gray-700 mr-1" />{" "}
+                            <span>Learn</span>
                         </Link>
                     </span>
                     <span className={styles.navlink}>
-                        <Link href={"https://github.com/TKDKid1000"}>
-                            <a className="flex items-center">
-                                <AiOutlineGithub size={24} className="text-gray-700 mr-1" />{" "}
-                                <span>GitHub</span>
-                            </a>
+                        <Link href={"https://github.com/TKDKid1000"} className="flex items-center">
+                            <AiOutlineGithub size={24} className="text-gray-700 mr-1" />{" "}
+                            <span>GitHub</span>
                         </Link>
                     </span>
                 </div>
                 <div className="flex lg:flex-row flex-col">
                     {user ? (
                         <button className={styles.navbtn}>
-                            <Link href={"/profile"}>
-                                <a className="flex items-center w-full">
-                                    {user.photoURL ? (
-                                        <Image
-                                            src={user.photoURL}
-                                            alt="Profile icon"
-                                            width={24}
-                                            height={24}
-                                            className="rounded-full"
-                                            referrerPolicy="no-referrer"
-                                        />
-                                    ) : (
-                                        <FiUser />
-                                    )}
-                                    <span className="ml-1 text-gray-400">Profile</span>
-                                </a>
+                            <Link href={"/profile"} className="flex items-center w-full">
+                                {user.photoURL ? (
+                                    <Image
+                                        src={user.photoURL}
+                                        alt="Profile icon"
+                                        width={24}
+                                        height={24}
+                                        className="rounded-full"
+                                        referrerPolicy="no-referrer"
+                                    />
+                                ) : (
+                                    <FiUser />
+                                )}
+                                <span className="ml-1 text-gray-400">Profile</span>
                             </Link>
                         </button>
                     ) : (

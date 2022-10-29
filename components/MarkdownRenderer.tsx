@@ -34,7 +34,7 @@ const MarkdownRenderer = ({ ...props }: ReactMarkdownOptions) => {
                             <code className={className} {...props}>
                                 {children}
                             </code>
-                        )
+                        );
                     }
                 }}
                 remarkPlugins={[remarkGfm]}
@@ -42,7 +42,7 @@ const MarkdownRenderer = ({ ...props }: ReactMarkdownOptions) => {
                 {props.children}
             </ReactMarkdown>
         </div>
-    )
+    );
 }
 
 export default MarkdownRenderer

@@ -56,15 +56,13 @@ const RecentActivity = ({ username }: { username: string }) => {
         <div className="flex flex-col text-black dark:text-white bg-stone-300 dark:bg-stone-800 p-2 rounded">
             <div className="flex justify-between">
                 <h2 className="text-3xl">Recent Contributions</h2>
-                <Link href={"https://github.com/TKDKid1000"}>
-                    <a className="flex items-center p-3 mr-1">
-                        <Image
-                            src={`/img/github-logo-${dark ? "light" : "dark"}.png`}
-                            alt="GitHub Logo"
-                            width={32}
-                            height={32}
-                        />
-                    </a>
+                <Link href={"https://github.com/TKDKid1000"} className="flex items-center p-3 mr-1">
+                    <Image
+                        src={`/img/github-logo-${dark ? "light" : "dark"}.png`}
+                        alt="GitHub Logo"
+                        width={32}
+                        height={32}
+                    />
                 </Link>
             </div>
             <div className="flex flex-col">
@@ -81,10 +79,11 @@ const RecentActivity = ({ username }: { username: string }) => {
                             <h5 className="text-lg">
                                 Created {event.payload.commits.length} commit
                                 {event.payload.commits.length > 1 ? "s" : ""} in{" "}
-                                <Link href={`https://github.com/${event.repo.name}`}>
-                                    <a className="text-sky-500 hover:underline">
-                                        {event.repo.name}
-                                    </a>
+                                <Link
+                                    href={`https://github.com/${event.repo.name}`}
+                                    className="text-sky-500 hover:underline"
+                                >
+                                    {event.repo.name}
                                 </Link>
                             </h5>
                             <div className="flex flex-col">
@@ -100,13 +99,14 @@ const RecentActivity = ({ username }: { username: string }) => {
                                 <ul className="list-disc">
                                     {event.payload.commits.map((commit) => (
                                         <li key={commit.sha} className="ml-8 mt-1 mb-1 last:mb-0">
-                                            <Link href={`https://github.com/${event.repo.name}`}>
-                                                <a className="text-sky-500 hover:underline">
-                                                    {commit.message.length > 50
-                                                        ? commit.message.substring(0, 50)
-                                                        : commit.message}
-                                                    {commit.message.length > 50 && <>&hellip;</>}
-                                                </a>
+                                            <Link
+                                                href={`https://github.com/${event.repo.name}`}
+                                                className="text-sky-500 hover:underline"
+                                            >
+                                                {commit.message.length > 50
+                                                    ? commit.message.substring(0, 50)
+                                                    : commit.message}
+                                                {commit.message.length > 50 && <>&hellip;</>}
                                             </Link>
                                         </li>
                                     ))}

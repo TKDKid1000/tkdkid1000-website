@@ -25,22 +25,20 @@ const LearnIndex: NextPage<LearnIndexProps> = ({ lessons }) => {
                         className="rounded-md hover:scale-105 transition-all duration-500 ease-in-out"
                     >
                         <Link href={`/learn/${lesson.slug}`}>
-                            <a>
-                                <Image
-                                    src={lesson.imageUrl}
-                                    alt="Lesson image"
-                                    layout="responsive"
-                                    width={300}
-                                    height={150}
-                                    className="rounded-t-md object-cover"
-                                />
-                                <div className="p-3">
-                                    <div className="text-black dark:text-white text-lg font-bold">
-                                        {lesson.title}
-                                    </div>
-                                    <div className="text-gray-500">{lesson.description}</div>
+                            <Image
+                                src={lesson.imageUrl}
+                                alt="Lesson image"
+                                layout="responsive"
+                                width={300}
+                                height={150}
+                                className="rounded-t-md object-cover"
+                            />
+                            <div className="p-3">
+                                <div className="text-black dark:text-white text-lg font-bold">
+                                    {lesson.title}
                                 </div>
-                            </a>
+                                <div className="text-gray-500">{lesson.description}</div>
+                            </div>
                         </Link>
                     </div>
                 ))}
