@@ -1,5 +1,4 @@
 import { animated, useSpring } from "@react-spring/web"
-import { useRef } from "react"
 
 /*
 remove height and width props from svg dist file
@@ -11,7 +10,6 @@ type OuterSpaceProps = {
 }
 
 const OuterSpace = ({ hidden }: OuterSpaceProps) => {
-    const containerRef = useRef<HTMLDivElement>()
     const { sun, earth, opacity } = useSpring({
         from: {
             sun: "scale(0.1) translate(0 -72)",
@@ -33,7 +31,6 @@ const OuterSpace = ({ hidden }: OuterSpaceProps) => {
     return (
         <>
             <animated.div
-                ref={containerRef}
                 className="w-full pt-60 sm:pt-36 md:pt-10 h-full flex items-center bg-[#182434] overflow-hidden"
                 style={{ opacity }}
             >

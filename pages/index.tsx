@@ -1,11 +1,11 @@
 import { animated, config, useReducedMotion, useSpring, useSprings } from "@react-spring/web"
 import { NextPage } from "next"
 import dynamic from "next/dynamic"
-import Image from "next/image"
 import Link from "next/link"
-import { ReactNode, useState } from "react"
+import { ForwardedRef, forwardRef, HTMLProps, ReactNode, useState } from "react"
 import { BsGrid, BsLightbulb, BsPen } from "react-icons/bs"
 import BlogPost, { Post } from "../components/BlogPost"
+import FadeIn from "../components/FadeIn"
 import Layout from "../components/Layout"
 import { useScroll } from "../hooks/scroll"
 import { sanity } from "../lib/sanity"
@@ -15,7 +15,15 @@ const DynamicOuterSpace = dynamic(() => import("../components/OuterSpace"))
 
 const DynamicRecentActivity = dynamic(() => import("../components/RecentActivity"))
 
-const HoverButton = ({ children, icon }: { children: string; icon: ReactNode }) => {
+const HoverButton = ({
+    children,
+    icon,
+    href
+}: {
+    children: string
+    icon: ReactNode
+    href: string
+}) => {
     const [hover, setHover] = useState(false)
     const [length, setLength] = useState(0)
     const { l } = useSpring({
@@ -26,14 +34,16 @@ const HoverButton = ({ children, icon }: { children: string; icon: ReactNode }) 
         config: config.stiff
     })
     return (
-        <button
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            className="flex flex-row gap-2 font-bold p-2 hover:bg-gray-500 hover:bg-opacity-40 rounded"
-        >
-            {icon}
-            {children.slice(0, length)}
-        </button>
+        <Link href={href}>
+            <a
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
+                className="flex flex-row gap-2 font-bold p-2 hover:bg-gray-500 hover:bg-opacity-40 rounded"
+            >
+                {icon}
+                {children.slice(0, length)}
+            </a>
+        </Link>
     )
 }
 
@@ -144,28 +154,15 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
                 <div className="flex flex-row-reverse">
                     {linkAnimations.map((style, index) => (
                         <animated.div key={links[index].text} style={style}>
-                            <Link href={links[index].href}>
-                                <a>
-                                    <HoverButton icon={links[index].icon}>
-                                        {links[index].text}
-                                    </HoverButton>
-                                </a>
-                            </Link>
+                            <HoverButton icon={links[index].icon} href={links[index].href}>
+                                {links[index].text}
+                            </HoverButton>
                         </animated.div>
                     ))}
                 </div>
             </div>
             <div className="flex flex-col lg:flex-row px-8 md:px-24 lg:px-32 pb-3">
                 <div className="flex flex-col dark:text-white lg:w-7/12">
-                    <div className="flex p-4 w-full h-1/3 lg:w-9/12 transition-all">
-                        <Image
-                            src="/img/wave.svg"
-                            alt="Header image"
-                            width={1000}
-                            height={600}
-                            className="rounded-md object-cover duration-500 hover:scale-105"
-                        />
-                    </div>
                     <div>
                         <h1 className="text-4xl font-bold mb-2">Hewo!</h1>
                         <p>
@@ -194,19 +191,34 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
                 </div>
                 <div className="flex flex-col lg:w-5/12">
                     {posts.slice(Math.max(posts.length - 3, 1)).map((p) => (
-                        <BlogPost key={p.slug} post={p} size={"sm"} />
+                        <FadeIn key={p.slug}>
+                            <BlogPost post={p} size={"sm"} />
+                        </FadeIn>
                     ))}
                 </div>
             </div>
             <div className="flex flex-col sm:flex-row px-8 md:px-24 lg:px-32 pb-3">
-                {posts.slice(0, 2).map((p) => (
-                    <BlogPost key={p.slug} post={p} size={"md"} />
+                {posts.slice(0, 2).map((p, i) => (
+                    <FadeIn key={p.slug} delay={i * 100}>
+                        <BlogPost post={p} size={"md"} />
+                    </FadeIn>
                 ))}
             </div>
             <DynamicRecentActivity username="TKDKid1000" />
         </Layout>
     )
 }
+
+const P = forwardRef(function P(
+    props: HTMLProps<HTMLParagraphElement>,
+    ref: ForwardedRef<HTMLParagraphElement>
+) {
+    return (
+        <p className="text-white" ref={ref} {...props}>
+            awdad
+        </p>
+    )
+})
 
 export const getStaticProps = async () => {
     const query = `

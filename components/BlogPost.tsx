@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { ForwardedRef, forwardRef, HTMLAttributes } from "react"
 
 type Author = {
     name: string
@@ -19,16 +20,19 @@ type Post = {
     content: string
 }
 
-type BlogPostProps = {
+type BlogPostProps = HTMLAttributes<HTMLDivElement> & {
     size: "sm" | "md" | "lg" | "xs"
     post: Post
 }
 
-const BlogPost = ({ post, size }: BlogPostProps) => {
+const BlogPost = forwardRef(function BlogPost(
+    { post, size, ...rest }: BlogPostProps,
+    ref: ForwardedRef<HTMLDivElement>
+) {
     switch (size) {
         case "lg": {
             return (
-                <div className="flex flex-col dark:text-white lg:w-7/12">
+                <div className="flex flex-col dark:text-white lg:w-7/12" ref={ref} {...rest}>
                     <div className="flex py-4 w-full h-1/3 lg:w-9/12 transition-all">
                         <Link href={`/blog/${post.slug}`}>
                             <a className="flex">
@@ -73,7 +77,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
         }
         case "md": {
             return (
-                <div className="flex flex-col p-3 sm:w-1/2">
+                <div className="flex flex-col p-3 w-1/2" ref={ref} {...rest}>
                     <div className="flex flex-col">
                         <div className="mr-3">
                             <Link href={`/blog/${post.slug}`}>
@@ -120,7 +124,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
         }
         case "sm": {
             return (
-                <div className="flex flex-col p-3">
+                <div className="flex flex-col p-3" ref={ref} {...rest}>
                     <div className="flex md:flex-row flex-col">
                         <div className="mr-3">
                             <Link href={`/blog/${post.slug}`}>
@@ -167,7 +171,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
         }
         case "xs": {
             return (
-                <div className="flex flex-col p-3">
+                <div className="flex flex-col p-3" ref={ref} {...rest}>
                     <div className="flex flex-col">
                         <div className="mr-3">
                             <Link href={`/blog/${post.slug}`}>
@@ -214,7 +218,7 @@ const BlogPost = ({ post, size }: BlogPostProps) => {
             )
         }
     }
-}
+})
 
 export type { BlogPostProps, Post, Author }
 
