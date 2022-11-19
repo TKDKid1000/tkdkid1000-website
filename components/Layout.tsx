@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { HTMLProps, ReactNode } from "react"
-import favicon from "../public/img/head.png"
+import favicon from "../public/img/icon.png"
 import Footer from "./Footer"
 import Navbar from "./Navbar"
 

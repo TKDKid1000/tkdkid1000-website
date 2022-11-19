@@ -15,7 +15,7 @@ import {
 import { FiUser } from "react-icons/fi"
 import { useScroll } from "../hooks/scroll"
 import { auth, firestore } from "../lib/firebase"
-import favicon from "../public/img/head.png"
+import favicon from "../public/img/icon.png"
 import styles from "../styles/navbar.module.scss"
 import LoginMenu from "./LoginMenu"
 

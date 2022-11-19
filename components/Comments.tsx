@@ -41,7 +41,6 @@ const Comment = ({ id, uid, content, time, edited, postId }: CommentProps) => {
                 <Image
                     src={authorData?.data()?.photo}
                     className="rounded"
-                    layout="fixed"
                     width={48}
                     height={48}
                     alt="Profile photo"
@@ -173,7 +172,6 @@ const Comments = ({ postId }: CommentsProps) => {
                                 <Image
                                     src={user.photoURL}
                                     alt={"Profile Photo"}
-                                    layout="fixed"
                                     width={48}
                                     height={48}
                                     className="object-cover rounded"

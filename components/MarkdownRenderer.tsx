@@ -16,7 +16,6 @@ const MarkdownRenderer = ({ ...props }: ReactMarkdownOptions) => {
                             <span className="w-1/4 block">
                                 <Image
                                     src={props.src}
-                                    layout="responsive"
                                     width={16}
                                     height={16}
                                     alt={props.alt || ""}
@@ -34,7 +33,7 @@ const MarkdownRenderer = ({ ...props }: ReactMarkdownOptions) => {
                             <code className={className} {...props}>
                                 {children}
                             </code>
-                        );
+                        )
                     }
                 }}
                 remarkPlugins={[remarkGfm]}
@@ -42,7 +41,7 @@ const MarkdownRenderer = ({ ...props }: ReactMarkdownOptions) => {
                 {props.children}
             </ReactMarkdown>
         </div>
-    );
+    )
 }
 
 export default MarkdownRenderer

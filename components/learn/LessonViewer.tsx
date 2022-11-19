@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { useDarkMode } from "../../hooks/theme"
-import favicon from "../../public/img/head.png"
+import favicon from "../../public/img/icon.png"
 import Spoiler from "../Spoiler"
 import Terminology from "./Terminology"
 

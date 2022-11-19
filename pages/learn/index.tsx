@@ -28,7 +28,6 @@ const LearnIndex: NextPage<LearnIndexProps> = ({ lessons }) => {
                             <Image
                                 src={lesson.imageUrl}
                                 alt="Lesson image"
-                                layout="responsive"
                                 width={300}
                                 height={150}
                                 className="rounded-t-md object-cover"

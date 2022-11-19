@@ -31,7 +31,7 @@ const OuterSpace = ({ hidden }: OuterSpaceProps) => {
     return (
         <>
             <animated.div
-                className="w-full pt-60 sm:pt-36 md:pt-10 h-full flex items-center bg-[#182434] overflow-hidden"
+                className="w-full h-full flex items-end bg-[#182434] overflow-hidden"
                 style={{ opacity }}
             >
                 <svg

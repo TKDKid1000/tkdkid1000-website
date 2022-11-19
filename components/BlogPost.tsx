@@ -33,21 +33,23 @@ const BlogPost = forwardRef(function BlogPost(
     switch (size) {
         case "lg": {
             return (
-                <div className="flex flex-col dark:text-white lg:w-7/12" ref={ref} {...rest}>
-                    <div className="flex py-4 w-full h-1/3 lg:w-9/12 transition-all">
-                        <Link href={`/blog/${post.slug}`} className="flex relative">
+                <div
+                    className="flex flex-col dark:text-white lg:w-7/12 mt-2 mr-2"
+                    ref={ref}
+                    {...rest}
+                >
+                    <div className="flex py-4 h-64 transition-all relative rounded-md overflow-hidden">
+                        <Link href={`/blog/${post.slug}`}>
                             <Image
-                                src={sanityImage(post.imageUrl).width(1000).height(1000).url()}
+                                src={sanityImage(post.imageUrl).size(1024, 576).url()}
                                 alt="Blog post image"
-                                width={1000}
-                                height={1000}
                                 fill
                                 placeholder="blur"
                                 blurDataURL={sanityImage(post.imageUrl)
-                                    .size(1000, 1000)
+                                    .size(1024, 576)
                                     .blur(50)
                                     .toString()}
-                                className="rounded-md object-cover duration-500 hover:scale-105"
+                                className="object-cover duration-500 hover:scale-105"
                             />
                         </Link>
                     </div>
@@ -84,13 +86,16 @@ const BlogPost = forwardRef(function BlogPost(
             return (
                 <div className="flex flex-col p-3 sm:w-1/2" ref={ref} {...rest}>
                     <div className="flex flex-col">
-                        <div className="mr-3">
+                        <div className="h-60 mr-3 relative rounded-md overflow-hidden">
                             <Link href={`/blog/${post.slug}`}>
                                 <Image
-                                    src={post.imageUrl}
+                                    src={sanityImage(post.imageUrl).width(640).height(360).url()}
                                     alt="Blog post image"
-                                    width={600}
-                                    height={300}
+                                    fill
+                                    blurDataURL={sanityImage(post.imageUrl)
+                                        .size(640, 360)
+                                        .blur(50)
+                                        .toString()}
                                     className="rounded-md object-cover duration-500 hover:scale-105"
                                 />
                             </Link>
@@ -127,16 +132,19 @@ const BlogPost = forwardRef(function BlogPost(
         }
         case "sm": {
             return (
-                <div className="flex flex-col" ref={ref} {...rest}>
+                <div className="flex flex-col mt-2 lg:ml-2" ref={ref} {...rest}>
                     <div className="flex md:flex-row flex-col md:justify-evenly lg:justify-between">
-                        <div className="md:w-40 md:h-40">
+                        <div className="md:w-40 md:h-40 relative rounded-md overflow-hidden">
                             <Link href={`/blog/${post.slug}`}>
                                 <Image
-                                    src={post.imageUrl}
+                                    src={sanityImage(post.imageUrl).width(640).height(360).url()}
                                     alt="Blog post image"
-                                    width={144}
-                                    height={144}
-                                    className="rounded-md object-cover duration-500 hover:scale-105 h-full w-full"
+                                    fill
+                                    blurDataURL={sanityImage(post.imageUrl)
+                                        .size(640, 360)
+                                        .blur(50)
+                                        .toString()}
+                                    className="rounded-md object-cover duration-500 hover:scale-105"
                                 />
                             </Link>
                         </div>

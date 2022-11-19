@@ -152,7 +152,6 @@ const Profile: NextPage = () => {
                                     className=""
                                     src={user?.photoURL || ""}
                                     alt="User photo"
-                                    layout="fixed"
                                     width={160}
                                     height={160}
                                 />
