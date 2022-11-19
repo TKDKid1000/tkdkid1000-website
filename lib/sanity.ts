@@ -1,4 +1,6 @@
 import sanityClient from "@sanity/client"
+import imageUrlBuilder from "@sanity/image-url"
+import { SanityImageSource } from "@sanity/image-url/lib/types/types"
 
 const sanity = sanityClient({
     projectId: "jteh7nq1",
@@ -7,4 +9,8 @@ const sanity = sanityClient({
     useCdn: false
 })
 
-export { sanity }
+const builder = imageUrlBuilder(sanity)
+
+const sanityImage = (source: SanityImageSource) => builder.image(source)
+
+export { sanity, sanityImage }

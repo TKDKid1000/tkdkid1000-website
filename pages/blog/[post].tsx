@@ -9,7 +9,7 @@ import Comments from "../../components/Comments"
 import Layout from "../../components/Layout"
 import Terminology from "../../components/learn/Terminology"
 import Spoiler from "../../components/Spoiler"
-import { sanity } from "../../lib/sanity"
+import { sanity, sanityImage } from "../../lib/sanity"
 
 type PostPageProps = {
     post: Post
@@ -34,13 +34,14 @@ const PostPage: NextPage<PostPageProps> = ({ post }) => {
                     <h1 className="text-5xl font-bold text-black dark:text-white">{post.title}</h1>
                 </div>
                 <div className="text-gray-400 mb-16">{post.description}</div>
-                <div className="w-full mb-4">
+                <div className="w-full mb-4 relative flex justify-center">
                     <Image
-                        src={post.imageUrl}
+                        src={sanityImage(post.imageUrl).size(2000, 1000).url()}
                         alt="Blog post image"
-                        layout="responsive"
-                        height={100}
-                        width={200}
+                        height={600}
+                        width={800}
+                        placeholder="blur"
+                        blurDataURL={sanityImage(post.imageUrl).size(200, 100).blur(50).toString()}
                         className="rounded-md object-cover"
                     />
                 </div>

@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ForwardedRef, forwardRef, HTMLAttributes } from "react"
+import { sanityImage } from "../lib/sanity"
 
 type Author = {
     name: string
@@ -34,12 +35,18 @@ const BlogPost = forwardRef(function BlogPost(
             return (
                 <div className="flex flex-col dark:text-white lg:w-7/12" ref={ref} {...rest}>
                     <div className="flex py-4 w-full h-1/3 lg:w-9/12 transition-all">
-                        <Link href={`/blog/${post.slug}`} className="flex">
+                        <Link href={`/blog/${post.slug}`} className="flex relative">
                             <Image
-                                src={post.imageUrl}
+                                src={sanityImage(post.imageUrl).width(1000).height(1000).url()}
                                 alt="Blog post image"
                                 width={1000}
-                                height={600}
+                                height={1000}
+                                fill
+                                placeholder="blur"
+                                blurDataURL={sanityImage(post.imageUrl)
+                                    .size(1000, 1000)
+                                    .blur(50)
+                                    .toString()}
                                 className="rounded-md object-cover duration-500 hover:scale-105"
                             />
                         </Link>
@@ -75,7 +82,7 @@ const BlogPost = forwardRef(function BlogPost(
         }
         case "md": {
             return (
-                <div className="flex flex-col p-3 w-1/2" ref={ref} {...rest}>
+                <div className="flex flex-col p-3 sm:w-1/2" ref={ref} {...rest}>
                     <div className="flex flex-col">
                         <div className="mr-3">
                             <Link href={`/blog/${post.slug}`}>
@@ -120,20 +127,20 @@ const BlogPost = forwardRef(function BlogPost(
         }
         case "sm": {
             return (
-                <div className="flex flex-col p-3" ref={ref} {...rest}>
-                    <div className="flex md:flex-row flex-col">
-                        <div className="mr-3">
+                <div className="flex flex-col" ref={ref} {...rest}>
+                    <div className="flex md:flex-row flex-col md:justify-evenly lg:justify-between">
+                        <div className="md:w-40 md:h-40">
                             <Link href={`/blog/${post.slug}`}>
                                 <Image
                                     src={post.imageUrl}
                                     alt="Blog post image"
-                                    width={168}
-                                    height={176}
-                                    className="rounded-md object-cover duration-500 hover:scale-105"
+                                    width={144}
+                                    height={144}
+                                    className="rounded-md object-cover duration-500 hover:scale-105 h-full w-full"
                                 />
                             </Link>
                         </div>
-                        <div className="flex flex-col w-3/4">
+                        <div className="flex flex-col md:w-7/12">
                             <span className="w-max font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-orange-400">
                                 {post.tags[0] || ""}
                             </span>
@@ -172,7 +179,7 @@ const BlogPost = forwardRef(function BlogPost(
                                 <Image
                                     src={post.imageUrl}
                                     alt="Blog post image"
-                                    layout="responsive"
+                                    // layout="responsive"
                                     width={300}
                                     height={150}
                                     className="rounded-md object-cover duration-500 hover:scale-105"

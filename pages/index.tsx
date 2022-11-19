@@ -160,7 +160,7 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
                     ))}
                 </div>
             </div>
-            <div className="flex flex-col lg:flex-row px-8 md:px-24 lg:px-32 pb-3">
+            <div className="flex flex-col lg:flex-row px-6 xl:px-32 pb-3">
                 <div className="flex flex-col dark:text-white lg:w-7/12">
                     <div>
                         <h1 className="text-4xl font-bold mb-2">Hewo!</h1>
@@ -196,7 +196,7 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
                     ))}
                 </div>
             </div>
-            <div className="flex flex-col sm:flex-row px-8 md:px-24 lg:px-32 pb-3">
+            <div className="flex flex-col sm:flex-row px-8 pb-3">
                 {posts.slice(0, 2).map((p, i) => (
                     <FadeIn key={p.slug} delay={i * 100}>
                         <BlogPost post={p} size={"md"} />
