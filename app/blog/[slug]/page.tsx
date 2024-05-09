@@ -1,24 +1,73 @@
-import { GetStaticPaths, GetStaticProps, NextPage } from "next"
-import { MDXRemote } from "next-mdx-remote"
-import { serialize } from "next-mdx-remote/serialize"
+import { MDXRemote } from "next-mdx-remote/rsc"
 import Image from "next/image"
 import Link from "next/link"
-import rehypeHighlight from "rehype-highlight"
-import BlogPost, { Post } from "../../components/BlogPost"
-import Comments from "../../components/Comments"
-import Layout from "../../components/Layout"
-import Terminology from "../../components/learn/Terminology"
-import Spoiler from "../../components/Spoiler"
-import { sanity, sanityImage } from "../../lib/sanity"
+import BlogPost, { Post } from "../../../components/BlogPost"
+import Comments from "../../../components/Comments"
+import Spoiler from "../../../components/Spoiler"
+import Terminology from "../../../components/learn/Terminology"
+import { sanity, sanityImage } from "../../../lib/sanity"
 
-type PostPageProps = {
-    post: Post
+type Props = {
+    params: { slug: string }
+    searchParams: { [key: string]: string | string[] | undefined }
 }
 
-const PostPage: NextPage<PostPageProps> = ({ post }) => {
+export async function generateMetadata({ params }: Props) {
+    const query = `*[_type == "post" && "${params.slug}" match slug.current][0].title`
+
+    let title: string = await sanity.fetch(query)
+    return { title }
+}
+
+export async function generateStaticParams() {
+    const query = `*[_type == "post"].slug.current`
+    const slugs: string[] = await sanity.fetch(query)
+    return slugs.map((slug) => ({
+        params: {
+            post: slug
+        }
+    }))
+}
+
+async function getData(slug: string) {
+    const query = `
+    *[_type == "post" && "${slug}" match slug.current] {
+        title, description,
+        "imageUrl": image.asset->url,
+        author->{
+          name, description,
+          "imageUrl": image.asset->url
+        }
+        ,
+        tags, _updatedAt, content,
+        "slug": slug.current,
+        "related": related[]->{
+          title, description,
+          "imageUrl": image.asset->url,
+          author->{
+            name, description,
+            "imageUrl": image.asset->url
+          }
+          ,
+          tags, _updatedAt,
+          "slug": slug.current
+        }
+      }[0]`
+
+    let post: Post = await sanity.fetch(query)
+    // const mdxSource = await serialize(post.content, {
+    //     mdxOptions: {
+    //         rehypePlugins: [rehypeHighlight]
+    //     }
+    // })
+    return { post }
+}
+
+export default async function PostPage({ params }: Props) {
+    const { post } = await getData(params.slug)
     const relatedPosts = post.related
     return (
-        <Layout title={post.title} className="px-8 md:px-24 lg:px-32 pb-3">
+        <div className="px-8 md:px-24 lg:px-32 pb-3">
             <div className="flex flex-col lg:px-24">
                 <div className="mt-12 md:mt-24">
                     {post.tags.map((tag) => (
@@ -65,11 +114,16 @@ const PostPage: NextPage<PostPageProps> = ({ post }) => {
                 </div>
                 <div className="markup whitespace-pre-wrap break-words">
                     <MDXRemote
-                        compiledSource={post.content}
+                        source={post.content}
                         components={{
                             Spoiler,
                             Link,
                             Terminology
+                        }}
+                        options={{
+                            mdxOptions: {
+                                rehypePlugins: []
+                            }
                         }}
                     />
                 </div>
@@ -92,57 +146,6 @@ const PostPage: NextPage<PostPageProps> = ({ post }) => {
             <div className="py-5">
                 <Comments postId={post.slug} />
             </div>
-        </Layout>
+        </div>
     )
 }
-
-export const getStaticPaths: GetStaticPaths = async () => {
-    const query = `*[_type == "post"].slug.current`
-    const slugs: string[] = await sanity.fetch(query)
-    return {
-        paths: slugs.map((slug) => ({
-            params: {
-                post: slug
-            }
-        })),
-        fallback: "blocking"
-    }
-}
-
-export const getStaticProps: GetStaticProps = async (ctx) => {
-    const postSlug = ctx.params.post as string
-    const query = `
-    *[_type == "post" && "${postSlug}" match slug.current] {
-        title, description,
-        "imageUrl": image.asset->url,
-        author->{
-          name, description,
-          "imageUrl": image.asset->url
-        }
-        ,
-        tags, _updatedAt, content,
-        "slug": slug.current,
-        "related": related[]->{
-          title, description,
-          "imageUrl": image.asset->url,
-          author->{
-            name, description,
-            "imageUrl": image.asset->url
-          }
-          ,
-          tags, _updatedAt,
-          "slug": slug.current
-        }
-      }[0]`
-
-    let post = await sanity.fetch(query)
-    const { compiledSource } = await serialize(post.content, {
-        mdxOptions: {
-            rehypePlugins: [rehypeHighlight]
-        }
-    })
-    post.content = compiledSource
-    return { props: { post }, revalidate: 300 }
-}
-
-export default PostPage

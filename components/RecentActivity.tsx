@@ -1,7 +1,5 @@
 import Image from "next/image"
 import Link from "next/link"
-import useSWR from "swr"
-import { useDarkMode } from "../hooks/theme"
 
 type ActivityEvent = {
     id: string
@@ -40,17 +38,15 @@ type ActivityCommit = {
     url: string
 }
 
-const fetcher = (url: string) =>
-    fetch(url)
+export async function getData(username: string) {
+    return fetch(`https://api.github.com/users/${username}/events?page=1`)
         .then((res) => res.json())
         .then((data: ActivityEvent[]) => data.filter((e) => e.type === "PushEvent"))
+}
 
-const RecentActivity = ({ username }: { username: string }) => {
-    const { data, error } = useSWR<ActivityEvent[]>(
-        `https://api.github.com/users/${username}/events?page=1`,
-        fetcher
-    )
-    const dark = useDarkMode()
+export default async function RecentActivity({ username }: { username: string }) {
+    const data = await getData(username)
+    // const dark = useDarkMode()
 
     return (
         <div className="flex flex-col text-black dark:text-white bg-stone-300 dark:bg-stone-800 p-2 rounded">
@@ -58,21 +54,16 @@ const RecentActivity = ({ username }: { username: string }) => {
                 <h2 className="text-3xl">Recent Contributions</h2>
                 <Link href={"https://github.com/TKDKid1000"} className="flex items-center p-3 mr-1">
                     <Image
-                        src={`/img/github-logo-${dark ? "light" : "dark"}.png`}
+                        src={`/img/github-logo-light.png`}
                         alt="GitHub Logo"
                         width={32}
                         height={32}
+                        className="dark:invert"
                     />
                 </Link>
             </div>
             <div className="flex flex-col">
                 {!data && <div>Loading...</div>}
-                {error && (
-                    <div>
-                        Failed to fetch GitHub contribution data! It appears you aren&apos;t
-                        connected to the internet
-                    </div>
-                )}
                 {data &&
                     data.map((event) => (
                         <div key={event.id} className="p-3">
@@ -118,5 +109,3 @@ const RecentActivity = ({ username }: { username: string }) => {
         </div>
     )
 }
-
-export default RecentActivity

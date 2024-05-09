@@ -1,15 +1,15 @@
+"use client"
+
 import { signOut } from "firebase/auth"
 import { doc, updateDoc } from "firebase/firestore"
 import { getDownloadURL, ref } from "firebase/storage"
-import { NextPage } from "next"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 import { useAuthState, useSendEmailVerification, useUpdateProfile } from "react-firebase-hooks/auth"
 import { useUploadFile } from "react-firebase-hooks/storage"
-import Layout from "../components/Layout"
-import { auth, firestore, storage } from "../lib/firebase"
+import { auth, firestore, storage } from "../../lib/firebase"
 
-const Profile: NextPage = () => {
+export default function Profile() {
     const [user] = useAuthState(auth)
     const [uploadFile] = useUploadFile()
     const [sendEmailVerification] = useSendEmailVerification(auth)
@@ -27,7 +27,7 @@ const Profile: NextPage = () => {
     }, [user])
 
     return (
-        <Layout title="Profile" className="px-8 md:px-24 lg:px-32 pb-3">
+        <div className="px-8 md:px-24 lg:px-32 pb-3">
             <div className="flex flex-col p-2 mb-8">
                 <h1 className="text-4xl text-black dark:text-white font-bold">Profile</h1>
                 {user && !user?.emailVerified && (
@@ -66,7 +66,7 @@ const Profile: NextPage = () => {
                                             updateProfile({
                                                 displayName: name
                                             })
-                                            updateDoc(doc(firestore, "/users", user.uid), {
+                                            updateDoc(doc(firestore, "/users", user!.uid), {
                                                 username: name
                                             })
                                         }}
@@ -160,8 +160,6 @@ const Profile: NextPage = () => {
                     </div>
                 </div>
             </div>
-        </Layout>
+        </div>
     )
 }
-
-export default Profile

@@ -10,20 +10,18 @@ const Footer = () => {
                         <Link
                             href={"https://github.com/TKDKid1000"}
                             className="transition-all hover:brightness-125"
-                            title="GitHub">
-
+                            title="GitHub"
+                        >
                             <BsGithub size={24} />
-
                         </Link>
                     </span>
                     <span className="mr-3">
                         <Link
                             href={"https://open.spotify.com/user/sqpw6aq5ndkabc4cgfoyg9lf6"}
                             className="transition-all hover:brightness-125"
-                            title="Spotify">
-
+                            title="Spotify"
+                        >
                             <BsSpotify size={24} />
-
                         </Link>
                     </span>
                 </div>
@@ -40,7 +38,7 @@ const Footer = () => {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 export default Footer

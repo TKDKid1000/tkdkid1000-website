@@ -30,6 +30,7 @@ const MarkdownEditor = ({ value, onChange }: MarkdownEditorProps) => {
 
     const writeTextbox = useCallback(
         (s: string) => {
+            if (!textRef.current) return
             const start = textRef.current.selectionStart
             const end = textRef.current.selectionEnd
             const selection = value.substring(start, end)
@@ -86,7 +87,7 @@ const MarkdownEditor = ({ value, onChange }: MarkdownEditorProps) => {
                     <button
                         className={styles.editorbtn}
                         onClick={() => {
-                            fileInputRef.current.click()
+                            fileInputRef.current && fileInputRef.current.click()
                         }}
                     >
                         <AiOutlineFileImage />

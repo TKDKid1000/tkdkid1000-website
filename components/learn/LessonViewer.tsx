@@ -1,5 +1,7 @@
+"use client"
+
 import stackblitz, { VM } from "@stackblitz/sdk"
-import { MDXRemote } from "next-mdx-remote"
+import dynamic from "next/dynamic"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
@@ -7,6 +9,8 @@ import { useDarkMode } from "../../hooks/theme"
 import favicon from "../../public/img/icon.png"
 import Spoiler from "../Spoiler"
 import Terminology from "./Terminology"
+
+const MDXRemote = dynamic(() => import("next-mdx-remote/rsc").then((rsc) => rsc.MDXRemote))
 
 type PackageJson = {
     name: string
@@ -53,7 +57,7 @@ type LessonProps = {
 }
 
 const LessonViewer = ({ lesson }: LessonProps) => {
-    const ref = useRef<HTMLIFrameElement>()
+    const ref = useRef<HTMLIFrameElement>(null)
     const loaded = useRef(false)
     const [vm, setVM] = useState<VM>()
     const dark = useDarkMode()
@@ -149,7 +153,7 @@ const LessonViewer = ({ lesson }: LessonProps) => {
                     <hr className="my-3" />
                     <div className="markup">
                         <MDXRemote
-                            compiledSource={lesson.steps[step].content}
+                            source={lesson.steps[step].content}
                             components={{
                                 Spoiler,
                                 Link,
@@ -166,6 +170,6 @@ const LessonViewer = ({ lesson }: LessonProps) => {
     )
 }
 
-export type { PackageJson, Lesson }
+export type { Lesson, PackageJson }
 
 export default LessonViewer

@@ -8,11 +8,13 @@ const nextConfig = {
     swcMinify: true,
     pageExtensions: ["js", "jsx", "ts", "tsx"],
     images: {
-        domains: [
-            "lh3.googleusercontent.com",
-            "firebasestorage.googleapis.com",
-            "avatars.githubusercontent.com",
-            "cdn.sanity.io"
+        remotePatterns: [
+            { hostname: "lh3.googleusercontent.com" },
+            { hostname: "firebasestorage.googleapis.com" },
+            { hostname: "avatars.githubusercontent.com" },
+            { hostname: "cdn.sanity.io" },
+            { hostname: "picsum.photos" },
+            { hostname: "fastly.picsum.photos" }
         ]
         //     loader: "akamai",
         //     path: ""

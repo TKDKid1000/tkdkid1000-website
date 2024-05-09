@@ -1,3 +1,5 @@
+"use client"
+
 import { ReactNode, useState } from "react"
 
 const Spoiler = ({ children }: { children: ReactNode | ReactNode[] }) => {

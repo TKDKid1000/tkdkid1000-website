@@ -1,12 +1,15 @@
+"use client"
+
 import { animated, useSpring } from "@react-spring/web"
 import { doc, setDoc } from "firebase/firestore"
 import Image from "next/image"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { useDocument } from "react-firebase-hooks/firestore"
 import {
-    AiOutlineBulb,
+    AiFillCamera,
     AiOutlineEdit,
     AiOutlineGithub,
     AiOutlineHome,
@@ -20,6 +23,7 @@ import styles from "../styles/navbar.module.scss"
 import LoginMenu from "./LoginMenu"
 
 const Navbar = () => {
+    const pathname = usePathname()
     const [open, setOpen] = useState(false)
     const [user] = useAuthState(auth)
     const [userData] = useDocument(doc(firestore, `/users/${user?.uid}`), {
@@ -42,89 +46,93 @@ const Navbar = () => {
         }
     }, [user, userData])
 
-    return (
-        <animated.nav
-            className={`bg-slate-500 px-8 md:px-32 py-4 flex flex-wrap items-center justify-between w-full sticky top-0 z-10 shadow shadow-gray-100 dark:shadow-gray-900`}
-            style={navStyle}
-        >
-            <div className="flex items-center flex-shrink-0 mr-3">
-                <Image
-                    src={favicon}
-                    alt="Logo Image"
-                    width={32}
-                    height={32}
-                    className="rounded-lg"
-                />
-                <span className="text-xl pl-2">
-                    <Link href={"/"}>TKDKid1000</Link>
-                </span>
-            </div>
-            <div className="block lg:hidden">
-                <button
-                    className="flex items-center rounded-lg border border-gray-600 px-5 py-2 transition-all focus:outline-4 outline-0 outline outline-gray-700"
-                    onClick={() => setOpen(!open)}
-                    title="Toggle navbar"
-                >
-                    <AiOutlineMenu />
-                </button>
-            </div>
-            <div
-                className={`w-full ${
-                    open ? "max-h-36" : "max-h-0"
-                } flex-grow lg:flex lg:max-h-36 lg:items-center lg:w-auto transition-all duration-500 motion-reduce:transition-none overflow-hidden`}
+    if (pathname !== "/")
+        return (
+            <animated.nav
+                className={`bg-slate-500 px-8 md:px-32 py-4 flex flex-wrap items-center justify-between w-full sticky top-0 z-10 shadow shadow-gray-100 dark:shadow-gray-900`}
+                style={navStyle}
             >
-                <div className="flex lg:flex-grow lg:flex-row flex-col">
-                    <span className={styles.navlink}>
-                        <Link href={"/"} className="flex items-center">
-                            <AiOutlineHome size={24} className="text-gray-700 mr-1" />{" "}
-                            <span>Home</span>
-                        </Link>
-                    </span>
-                    <span className={styles.navlink}>
-                        <Link href={"/blog"} className="flex items-center">
-                            <AiOutlineEdit size={24} className="text-gray-700 mr-1" />{" "}
-                            <span>Blog</span>
-                        </Link>
-                    </span>
-                    <span className={styles.navlink}>
-                        <Link href={"/learn"} className="flex items-center">
-                            <AiOutlineBulb size={24} className="text-gray-700 mr-1" />{" "}
-                            <span>Learn</span>
-                        </Link>
-                    </span>
-                    <span className={styles.navlink}>
-                        <Link href={"https://github.com/TKDKid1000"} className="flex items-center">
-                            <AiOutlineGithub size={24} className="text-gray-700 mr-1" />{" "}
-                            <span>GitHub</span>
-                        </Link>
+                <div className="flex items-center flex-shrink-0 mr-3">
+                    <Image
+                        src={favicon}
+                        alt="Logo Image"
+                        width={32}
+                        height={32}
+                        className="rounded-lg"
+                    />
+                    <span className="text-xl pl-2">
+                        <Link href={"/"}>TKDKid1000</Link>
                     </span>
                 </div>
-                <div className="flex lg:flex-row flex-col">
-                    {user ? (
-                        <button className={styles.navbtn}>
-                            <Link href={"/profile"} className="flex items-center w-full">
-                                {user.photoURL ? (
-                                    <Image
-                                        src={user.photoURL}
-                                        alt="Profile icon"
-                                        width={24}
-                                        height={24}
-                                        className="rounded-full"
-                                        referrerPolicy="no-referrer"
-                                    />
-                                ) : (
-                                    <FiUser />
-                                )}
-                                <span className="ml-1 text-gray-400">Profile</span>
+                <div className="block lg:hidden">
+                    <button
+                        className="flex items-center rounded-lg border border-gray-600 px-5 py-2 transition-all focus:outline-4 outline-0 outline outline-gray-700"
+                        onClick={() => setOpen(!open)}
+                        title="Toggle navbar"
+                    >
+                        <AiOutlineMenu />
+                    </button>
+                </div>
+                <div
+                    className={`w-full ${
+                        open ? "max-h-36" : "max-h-0"
+                    } flex-grow lg:flex lg:max-h-36 lg:items-center lg:w-auto transition-all duration-500 motion-reduce:transition-none overflow-hidden`}
+                >
+                    <div className="flex lg:flex-grow lg:flex-row flex-col">
+                        <span className={styles.navlink}>
+                            <Link href={"/"} className="flex items-center">
+                                <AiOutlineHome size={24} className="text-gray-700 mr-1" />{" "}
+                                <span>Home</span>
                             </Link>
-                        </button>
-                    ) : (
-                        <LoginMenu />
-                    )}
+                        </span>
+                        <span className={styles.navlink}>
+                            <Link href={"/blog"} className="flex items-center">
+                                <AiOutlineEdit size={24} className="text-gray-700 mr-1" />{" "}
+                                <span>Blog</span>
+                            </Link>
+                        </span>
+                        <span className={styles.navlink}>
+                            <Link href={"/portfolio"} className="flex items-center">
+                                <AiFillCamera size={24} className="text-gray-700 mr-1" />{" "}
+                                <span>Portfolio</span>
+                            </Link>
+                        </span>
+                        <span className={styles.navlink}>
+                            <Link
+                                href={"https://github.com/TKDKid1000"}
+                                className="flex items-center"
+                            >
+                                <AiOutlineGithub size={24} className="text-gray-700 mr-1" />{" "}
+                                <span>GitHub</span>
+                            </Link>
+                        </span>
+                    </div>
+                    <div className="flex lg:flex-row flex-col">
+                        {user ? (
+                            <button className={styles.navbtn}>
+                                <Link href={"/profile"} className="flex items-center w-full">
+                                    {user.photoURL ? (
+                                        <Image
+                                            src={user.photoURL}
+                                            alt="Profile icon"
+                                            width={24}
+                                            height={24}
+                                            className="rounded-full"
+                                            referrerPolicy="no-referrer"
+                                        />
+                                    ) : (
+                                        <FiUser />
+                                    )}
+                                    <span className="ml-1 text-gray-400">Profile</span>
+                                </Link>
+                            </button>
+                        ) : (
+                            <LoginMenu />
+                        )}
+                    </div>
                 </div>
-            </div>
-        </animated.nav>
-    )
+            </animated.nav>
+        )
 }
 
 export default Navbar

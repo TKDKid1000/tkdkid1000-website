@@ -1,3 +1,5 @@
+"use client"
+
 import { Dropdown } from "@restart/ui"
 import { collection, deleteDoc, doc, setDoc, updateDoc } from "firebase/firestore"
 import TimeAgo from "javascript-time-ago"
@@ -170,7 +172,7 @@ const Comments = ({ postId }: CommentsProps) => {
                         <div className="flex flex-row">
                             <div className="px-3">
                                 <Image
-                                    src={user.photoURL}
+                                    src={user.photoURL!}
                                     alt={"Profile Photo"}
                                     width={48}
                                     height={48}

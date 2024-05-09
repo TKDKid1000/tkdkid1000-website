@@ -6,6 +6,7 @@ import schemaTypes from "all:part:@sanity/base/schema-type"
 
 import author from "./author"
 import lesson from "./lesson"
+import piece from "./piece"
 import post from "./post"
 
 // Then we give our schema to the builder and provide the result to Sanity
@@ -18,6 +19,7 @@ export default createSchema({
         /* Your types here! */
         post,
         author,
-        lesson
+        lesson,
+        piece
     ])
 })

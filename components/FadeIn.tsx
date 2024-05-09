@@ -1,3 +1,5 @@
+"use client"
+
 import { cloneElement, CSSProperties, ReactElement, useEffect, useRef, useState } from "react"
 
 type FadeInProps = {

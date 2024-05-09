@@ -1,6 +1,4 @@
-import { GetStaticProps, NextPage } from "next"
 import BlogPost, { Post } from "../../components/BlogPost"
-import Layout from "../../components/Layout"
 import { sanity } from "../../lib/sanity"
 
 const groupList = <T,>(list: T[], size: number) => {
@@ -12,14 +10,29 @@ const groupList = <T,>(list: T[], size: number) => {
     return lists
 }
 
-type BlogIndexProps = {
-    posts: Post[]
+async function getData() {
+    const query = `
+    *[_type == "post"] | order(_updatedAt desc) {
+        title, description,
+        "imageUrl": image.asset->url,
+        author->{
+          name, description,
+          "imageUrl": image.asset->url
+        }
+        ,
+        tags, _updatedAt,
+        "slug": slug.current
+      }`
+    const posts: Post[] = await sanity.fetch(query)
+    return posts
 }
 
-const BlogIndex: NextPage<BlogIndexProps> = ({ posts }) => {
+export default async function BlogIndex() {
+    const posts = await getData()
     const postGroups = groupList(posts, 6)
+
     return (
-        <Layout title="Blog" className="px-8 md:px-24 lg:px-32 pb-3">
+        <div className="px-8 md:px-24 lg:px-32 pb-3">
             {postGroups.map((group, index) => (
                 <div key={index}>
                     <div className="flex flex-col lg:flex-row">
@@ -37,25 +50,6 @@ const BlogIndex: NextPage<BlogIndexProps> = ({ posts }) => {
                     </div>
                 </div>
             ))}
-        </Layout>
+        </div>
     )
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-    const query = `
-    *[_type == "post"] | order(_updatedAt desc) {
-        title, description,
-        "imageUrl": image.asset->url,
-        author->{
-          name, description,
-          "imageUrl": image.asset->url
-        }
-        ,
-        tags, _updatedAt,
-        "slug": slug.current
-      }`
-    const posts: Post[] = await sanity.fetch(query)
-    return { props: { posts }, revalidate: 300 }
-}
-
-export default BlogIndex
